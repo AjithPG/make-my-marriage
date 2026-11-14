@@ -1,7 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/button";
 
-// Temporary landing page; moved into the (marketing) route group in Stage 2.
 export default async function Home() {
   const t = await getTranslations("Home");
   return (
