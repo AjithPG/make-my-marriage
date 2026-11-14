@@ -23,13 +23,13 @@ Decisions below override the docs where they differ.
 
 ## Folder rules
 
-| Folder | Holds | Never holds |
-|---|---|---|
-| `src/app/` | Routing only: pages, layouts, route handlers (thin) | Business rules, DB access |
-| `src/modules/<domain>/` | Business logic and that domain's Mongoose models (`models/`) | Imports from `next/*` |
-| `src/server/` | Server-only infrastructure (env, db, http, errors, R2, email, cron, auth plumbing) | Business rules, feature models |
-| `src/components/` | UI components (`ui/` = shadcn) | Data access |
-| `src/lib/` | Client-safe, framework-agnostic helpers used by **2+ features** | Feature helpers, server code, "misc" |
+| Folder                  | Holds                                                                              | Never holds                          |
+| ----------------------- | ---------------------------------------------------------------------------------- | ------------------------------------ |
+| `src/app/`              | Routing only: pages, layouts, route handlers (thin)                                | Business rules, DB access            |
+| `src/modules/<domain>/` | Business logic and that domain's Mongoose models (`models/`)                       | Imports from `next/*`                |
+| `src/server/`           | Server-only infrastructure (env, db, http, errors, R2, email, cron, auth plumbing) | Business rules, feature models       |
+| `src/components/`       | UI components (`ui/` = shadcn)                                                     | Data access                          |
+| `src/lib/`              | Client-safe, framework-agnostic helpers used by **2+ features**                    | Feature helpers, server code, "misc" |
 
 - Mongoose models live in their domain module (`src/modules/<domain>/models/*.model.ts`). There is no global models folder.
 - Every file in `src/server` and `src/modules` starts with `import 'server-only'`.
@@ -40,10 +40,10 @@ Decisions below override the docs where they differ.
 
 ### `modules/auth` vs `server/auth`
 
-- `src/modules/auth/` — what auth *means*: user / session / password-reset models and (later) the
+- `src/modules/auth/` — what auth _means_: user / session / password-reset models and (later) the
   rules for sign-up, login, reset and the session lifecycle. May import Mongoose, `server/db`,
   `server/errors`, `server/auth`. Never imports `next/*`.
-- `src/server/auth/` — how auth is *carried*: `cookie.ts` (mm_session read/set/clear),
+- `src/server/auth/` — how auth is _carried_: `cookie.ts` (mm_session read/set/clear),
   `token.ts` (random token + SHA-256), `password.ts` (Argon2id). Never imports Mongoose or models;
   no business rules.
 - Dependency direction: `modules/auth` → `server/auth`, never the reverse.
@@ -87,14 +87,14 @@ Route handler → `handler()` (`src/server/http.ts`) → module code → Mongoos
 
 ## Commands
 
-| Command | Does |
-|---|---|
-| `npm run dev` | Start Next.js locally (needs `.env.local`) |
-| `npm run build` | Production build (type errors fail it) |
-| `npm run typecheck` | `tsc --noEmit` |
-| `npm run format` | Prettier write |
+| Command                                               | Does                                        |
+| ----------------------------------------------------- | ------------------------------------------- |
+| `npm run dev`                                         | Start Next.js locally (needs `.env.local`)  |
+| `npm run build`                                       | Production build (type errors fail it)      |
+| `npm run typecheck`                                   | `tsc --noEmit`                              |
+| `npm run format`                                      | Prettier write                              |
 | `npm run migrate` / `migrate:down` / `migrate:status` | migrate-mongo against `MIGRATE_MONGODB_URI` |
-| `npm run db:check-indexes` | Compare model indexes with the database |
+| `npm run db:check-indexes`                            | Compare model indexes with the database     |
 
 ## Conventions
 

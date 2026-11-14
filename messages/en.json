@@ -1,0 +1,16 @@
+{
+  "Metadata": {
+    "title": "Make My Marriage",
+    "description": "A free wedding website and planner for Kerala weddings."
+  },
+  "Home": {
+    "title": "Make My Marriage",
+    "tagline": "One link for your wedding: events, venues, live stream and photos.",
+    "cta": "Get started"
+  },
+  "NotFound": {
+    "title": "This page isn't available",
+    "body": "The link may be wrong, or the page may have been unpublished.",
+    "home": "Go to the home page"
+  }
+}
