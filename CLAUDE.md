@@ -67,6 +67,8 @@ Route handler → `handler()` (`src/server/http.ts`) → module code → Mongoos
 - Indexes are declared in the model **and** created by a migration (`migrations/`, migrate-mongo,
   native driver). `autoIndex: false` everywhere. Never run migrations in the Vercel build.
 - `npm run db:check-indexes` diffs model indexes against the live database.
+- migrate-mongo keeps its own bookkeeping in the `migrations` and `migrationsLock` collections.
+- New migration: `npm run migrate:create -- <name>`; always write `down` too.
 - Scripts importing `src/` run with `tsx --conditions=react-server` (otherwise `server-only` throws).
 - Register models as `models.X ?? model(...)` to survive dev hot reload.
 
