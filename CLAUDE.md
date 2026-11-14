@@ -8,8 +8,7 @@ Decisions below override the docs where they differ.
 ## Architecture (fixed — ask before changing)
 
 - Modular monolith, one Next.js App Router app, TypeScript strict everywhere.
-- Backend = Next.js Route Handlers in `src/app/api/**/route.ts`, Node.js runtime
-  (`export const runtime = 'nodejs'`). Explicit REST API. No Express, no NestJS,
+- Backend = Next.js Route Handlers in `src/app/api/**/route.ts`, Node.js runtime. Explicit REST API. No Express, no NestJS,
   **no server actions for mutations** — every write goes through `/api`.
 - Server components may call module code directly for **reads**.
 - MongoDB Atlas + Mongoose. Zod for all validation (env, body, query, params).
@@ -20,6 +19,9 @@ Decisions below override the docs where they differ.
 - UI: Tailwind CSS v4 + shadcn/ui. Strings via next-intl (`messages/en.json`, English only, no locale routing).
 - Package manager: npm, exact versions (`.npmrc` → `save-exact=true`). Node 22.
 - Deferred until asked: logger, automated tests, git hooks, CI, ESLint, Sharp.
+- `cacheComponents` is on (Next 16 default). Route segment configs `runtime` and `dynamic` are
+  rejected with it: everything already runs on Node.js, and `handler()` calls `connection()`
+  so API routes are never prerendered. Cache guest pages with `'use cache'` + `cacheTag()`.
 
 ## Folder rules
 
