@@ -1,0 +1,48 @@
+@reference "../../../app/globals.css";
+
+/* scroll-mt keeps the heading clear of the sticky header when jumped to. */
+.howItWorks {
+  @apply scroll-mt-18 bg-background py-20 lg:scroll-mt-20 lg:py-28;
+}
+
+.sectionInner {
+  @apply mx-auto w-full max-w-7xl px-5 lg:px-12;
+}
+
+.stepList {
+  @apply grid grid-cols-1 gap-6 md:grid-cols-3 lg:gap-8;
+}
+
+.stepCard {
+  @apply flex flex-col rounded-[1.75rem] border border-border bg-muted p-7 lg:p-8;
+}
+
+.stepTop {
+  @apply mb-8 flex items-center justify-between;
+}
+
+/* 70% wine keeps 3:1+ contrast on the grey card (large text). */
+.stepNumber {
+  @apply font-serif text-4xl font-bold text-primary/70;
+}
+
+.stepIconBox {
+  @apply flex size-11 items-center justify-center rounded-2xl border border-border bg-background text-primary;
+}
+
+.stepIcon {
+  @apply size-5;
+}
+
+.stepTitle {
+  @apply mb-3 font-serif text-2xl font-semibold text-foreground;
+}
+
+.stepBody {
+  @apply mb-8 text-base leading-relaxed text-muted-foreground;
+}
+
+/* mt-auto pins the tag to the bottom so the three cards line up. */
+.stepTag {
+  @apply mt-auto border-t border-border pt-4 text-sm font-semibold text-primary;
+}

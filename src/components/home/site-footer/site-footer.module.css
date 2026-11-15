@@ -1,0 +1,30 @@
+@reference "../../../app/globals.css";
+
+.footer {
+  @apply mt-auto border-t border-border bg-background py-12 lg:py-16;
+}
+
+.footerInner {
+  @apply mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-8 px-5 md:flex-row lg:px-12;
+}
+
+.footerBrand {
+  @apply flex flex-col items-center gap-3 text-center sm:flex-row sm:gap-4 sm:text-left;
+}
+
+.footerDivider {
+  @apply hidden h-5 w-px bg-border sm:block;
+}
+
+.copyright {
+  @apply text-sm text-muted-foreground;
+}
+
+.footerLinks {
+  @apply flex flex-wrap items-center justify-center gap-x-6 gap-y-3;
+}
+
+/* py-2 keeps a comfortable tap target on phones. */
+.footerLink {
+  @apply inline-block rounded-md py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring;
+}

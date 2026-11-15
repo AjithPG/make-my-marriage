@@ -1,0 +1,18 @@
+@reference "../../../app/globals.css";
+
+.trustStrip {
+  @apply border-y border-border bg-muted py-10 lg:py-12;
+}
+
+.trustList {
+  @apply mx-auto grid w-full max-w-7xl grid-cols-2 gap-3 px-5 sm:gap-4 md:grid-cols-4 lg:px-12;
+}
+
+/* Rounded box on phones so long labels wrap instead of being cut off; pill from md up. */
+.trustItem {
+  @apply flex items-center justify-center gap-2.5 rounded-2xl border border-border bg-background px-4 py-3.5 text-center text-sm font-medium text-foreground shadow-sm md:rounded-full md:px-5 md:text-base;
+}
+
+.trustIcon {
+  @apply size-5 shrink-0 text-primary;
+}

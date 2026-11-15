@@ -17,6 +17,14 @@ Decisions below override the docs where they differ.
 - Cloudflare R2 (S3 API, presigned uploads) for media; Resend for email.
 - Vercel, region `bom1`; Vercel Cron for scheduled jobs.
 - UI: Tailwind CSS v4 + shadcn/ui. Strings via next-intl (`messages/en.json`, English only, no locale routing).
+- **One folder per component:** `src/components/<area>/<name>/<name>.tsx` + `<name>.module.css`
+  (no `index.ts` barrels). Import as `@/components/home/site-header/site-header`.
+- **No Tailwind utility classes in JSX.** Every component has its own `<name>.module.css` next to it
+  with meaningful class names (`styles.heroTitle`), styled with `@apply` (start the file with
+  `@reference "<relative path>/app/globals.css";`). Only shadcn files in `src/components/ui/` keep
+  their own Tailwind classes; pass a module class via `className` to adjust them.
+- Accessibility: body text ≥ 16px (`text-base`), smallest text 14px (`text-sm`), sizes in rem;
+  visible focus, `motion-safe:` for animation, decorative mockups `aria-hidden`.
 - Package manager: npm, exact versions (`.npmrc` → `save-exact=true`). Node 22.
 - Deferred until asked: logger, automated tests, git hooks, CI, ESLint, Sharp.
 - `cacheComponents` is on (Next 16 default). Route segment configs `runtime` and `dynamic` are

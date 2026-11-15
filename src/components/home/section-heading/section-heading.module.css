@@ -1,0 +1,23 @@
+@reference "../../../app/globals.css";
+
+/* Used by How it works, Features and Bring the family in. */
+.headingCentered {
+  @apply mx-auto mb-12 max-w-2xl text-center lg:mb-16;
+}
+
+/* Used by Guest experience and FAQ (left-aligned, beside other content). */
+.headingStart {
+  @apply mb-8 max-w-xl;
+}
+
+.eyebrow {
+  @apply text-sm font-bold tracking-widest text-primary uppercase;
+}
+
+.title {
+  @apply mt-2 font-serif text-3xl leading-tight tracking-tight text-balance text-foreground sm:text-4xl lg:text-5xl;
+}
+
+.intro {
+  @apply mt-4 text-base leading-relaxed text-muted-foreground lg:text-lg;
+}

@@ -48,10 +48,20 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   turbopack: {
     rules: {
-      "*.css": {
-        loaders: ["@tailwindcss/turbopack"],
-        as: "*.css",
-      },
+      // `as: "*.css"` would turn `x.module.css` into a global stylesheet
+      // (no scoped class names), so CSS modules get their own rule.
+      "*.css": [
+        {
+          condition: { not: { path: /\.module\.css$/ } },
+          loaders: ["@tailwindcss/turbopack"],
+          as: "*.css",
+        },
+        {
+          condition: { path: /\.module\.css$/ },
+          loaders: ["@tailwindcss/turbopack"],
+          as: "*.module.css",
+        },
+      ],
     },
   },
   images: {

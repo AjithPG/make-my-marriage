@@ -1,0 +1,47 @@
+@reference "../../../app/globals.css";
+
+.finalCta {
+  @apply bg-background px-5 py-20 lg:px-12 lg:py-24;
+}
+
+.ctaPanel {
+  @apply relative mx-auto max-w-5xl overflow-hidden rounded-[2rem] bg-primary px-6 py-14 text-center text-primary-foreground shadow-2xl sm:px-12 lg:p-20;
+}
+
+.ringTopLeft {
+  @apply pointer-events-none absolute -top-24 -left-24 size-80 rounded-full border border-white/10;
+}
+
+.ringBottomRight {
+  @apply pointer-events-none absolute -right-24 -bottom-24 size-96 rounded-full border border-white/10;
+}
+
+.ringCenter {
+  @apply pointer-events-none absolute top-1/2 left-1/2 size-125 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/5;
+}
+
+.ctaContent {
+  @apply relative z-10 mx-auto flex max-w-2xl flex-col items-center;
+}
+
+/* white/80 on wine is about 7:1 contrast. */
+.eyebrow {
+  @apply mb-3 text-sm font-bold tracking-widest text-white/80 uppercase;
+}
+
+.title {
+  @apply mb-4 font-serif text-3xl font-medium tracking-tight text-balance sm:text-4xl lg:text-5xl;
+}
+
+.body {
+  @apply mb-8 text-lg leading-relaxed text-white/85;
+}
+
+/* Overrides the shadcn Button: white pill with wine text. */
+.ctaButton {
+  @apply h-14 w-full rounded-full bg-white px-8 text-base font-semibold text-primary shadow-lg hover:bg-accent focus-visible:ring-white/60 sm:w-auto;
+}
+
+.ctaIcon {
+  @apply size-5;
+}

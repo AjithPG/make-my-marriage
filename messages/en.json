@@ -1,12 +1,222 @@
 {
   "Metadata": {
-    "title": "Make My Marriage",
-    "description": "A free wedding website and planner for Kerala weddings."
+    "title": "Make My Marriage — Free Kerala Wedding Website & Planning",
+    "description": "Create your wedding website, invite guests on WhatsApp and plan every event together with family. Free for Kerala weddings."
   },
-  "Home": {
-    "title": "Make My Marriage",
-    "tagline": "One link for your wedding: events, venues, live stream and photos.",
-    "cta": "Get started"
+  "Marketing": {
+    "brand": "Make My Marriage",
+    "homeLink": "Make My Marriage home",
+    "skipToContent": "Skip to content",
+    "nav": {
+      "label": "Main",
+      "features": "Features",
+      "howItWorks": "How it works",
+      "faq": "FAQ",
+      "logIn": "Log in",
+      "create": "Create your wedding",
+      "createShort": "Create",
+      "openMenu": "Open menu",
+      "closeMenu": "Close menu"
+    },
+    "footer": {
+      "label": "Footer",
+      "copyright": "© {year} Make My Marriage · Made with care in Kerala",
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "contact": "Contact",
+      "report": "Report a page"
+    }
+  },
+  "Landing": {
+    "hero": {
+      "eyebrow": "Free for Kerala weddings",
+      "titleStart": "Your whole wedding, one",
+      "titleEmphasis": "beautiful",
+      "titleEnd": "link.",
+      "subtitle": "Create your wedding website, invite guests on WhatsApp and plan every event together with family.",
+      "primaryCta": "Create your wedding",
+      "secondaryCta": "See a sample site",
+      "points": {
+        "noApp": "No app for guests",
+        "oneSitting": "Ready in one sitting",
+        "noSearch": "Hidden from search engines"
+      }
+    },
+    "preview": {
+      "monogram": "M & A",
+      "couple": "Meera & Arjun",
+      "dateLine": "14 February 2027 · Palakkad",
+      "url": "makemymarriage.in/meera-arjun-2027-02-14",
+      "invitedLabel": "Guests invited",
+      "invitedCount": "142 / 210 invited",
+      "engagement": "Engagement",
+      "engagementMeta": "10 Feb · Rama Nilayam",
+      "muhurtham": "Wedding (Muhurtham)",
+      "muhurthamTime": "Muhurtham 10:30 AM",
+      "muhurthamVenue": "Sree Krishna Auditorium, Palakkad",
+      "watchLive": "Watch live",
+      "directions": "Directions",
+      "reception": "Reception",
+      "receptionMeta": "14 Feb · 6:00 PM · Palakkad Club",
+      "whatsappTitle": "WhatsApp invite",
+      "whatsappMessage": "Dear Rajan Uncle & Family, we joyfully invite you to the wedding of Meera & Arjun.",
+      "whatsappLink": "makemymarriage.in/meera-arjun-2027-02-14"
+    },
+    "trust": {
+      "label": "Why couples choose us",
+      "free": "Free for every couple",
+      "noApp": "No app for guests",
+      "noSearch": "Hidden from search engines",
+      "kerala": "Made for Kerala weddings"
+    },
+    "howItWorks": {
+      "eyebrow": "How it works",
+      "title": "Live in three steps",
+      "intro": "Set up around the way Kerala families celebrate.",
+      "stepLabel": "Step {number}",
+      "steps": {
+        "events": {
+          "title": "Add your events",
+          "body": "Engagement, Muhurtham, reception and more, each with its venue and a Google Maps link.",
+          "tag": "Engagement · Muhurtham · Reception"
+        },
+        "invite": {
+          "title": "Invite on WhatsApp",
+          "body": "Tap Invite next to a guest. WhatsApp opens with your message and site link, and the guest is marked invited.",
+          "tag": "Your message, your contacts"
+        },
+        "share": {
+          "title": "Share and celebrate",
+          "body": "Add a YouTube live link for relatives abroad and share your photo gallery when you're ready.",
+          "tag": "Live stream & photo gallery"
+        }
+      }
+    },
+    "features": {
+      "eyebrow": "Features",
+      "title": "Everything your wedding needs, in one place",
+      "intro": "One simple place for the couple, the family and every guest.",
+      "website": {
+        "tag": "Wedding website",
+        "title": "Your wedding website",
+        "body": "Your invitation, the couple, every event with directions, the live stream and your photos. It opens on any phone, and you choose when to publish.",
+        "previewSubtitle": "Palakkad · Events · Directions · Live stream"
+      },
+      "whatsapp": {
+        "tag": "WhatsApp invites",
+        "title": "Invites on WhatsApp",
+        "body": "One message for everyone, with each guest's name filled in. You pick the contact and send.",
+        "invite": "Invite",
+        "invited": "Invited",
+        "guest1": "Suresh Nair & Family",
+        "guest2": "Priya Menon",
+        "guest3": "K. V. Govindan Master"
+      },
+      "guests": {
+        "tag": "Guest list",
+        "title": "Guest list",
+        "body": "Paste names or import a CSV, sort guests into groups and see at a glance who is still to be invited.",
+        "count": "142",
+        "countLabel": "of 210 invited",
+        "brideSide": "Bride's side",
+        "brideSideCount": "112",
+        "groomSide": "Groom's side",
+        "groomSideCount": "98"
+      },
+      "todos": {
+        "tag": "Checklist",
+        "title": "Wedding to-dos",
+        "body": "Start with a ready Kerala checklist, assign tasks to family and see what is due this week.",
+        "item1": "Book the auditorium",
+        "item2": "Fix the Muhurtham",
+        "item3": "Finalise the sadya caterer"
+      },
+      "gallery": {
+        "tag": "Photos",
+        "title": "Photo gallery",
+        "body": "Upload your wedding photos by event and show the gallery on your site when you're ready."
+      },
+      "live": {
+        "tag": "Live stream",
+        "title": "Live on YouTube",
+        "body": "Paste your YouTube live link for each event and it plays right on your wedding site.",
+        "badge": "Muhurtham live",
+        "note": "Anyone with the link can watch an unlisted stream."
+      }
+    },
+    "guests": {
+      "eyebrow": "For your guests",
+      "title": "No app. No login. Just a link.",
+      "intro": "No more calls asking for the venue, the timings or the live stream link. Everything is on one page that opens instantly on any phone.",
+      "previewBadge": "Wedding on 14 February 2027",
+      "previewWelcome": "Welcome",
+      "previewTitle": "Meera & Arjun's wedding",
+      "previewBody": "Here are the events and directions.",
+      "previewEvent1": "Muhurtham",
+      "previewEvent1Time": "10:30 AM",
+      "previewEvent1Venue": "Sree Krishna Auditorium, Main Hall",
+      "previewEvent2": "Reception",
+      "previewEvent2Time": "6:00 PM",
+      "previewEvent2Venue": "Palakkad Club",
+      "previewDirections": "Get directions",
+      "points": {
+        "events": {
+          "title": "Every event in one view",
+          "body": "Dates, timings and venues for every event, with the Muhurtham time shown clearly."
+        },
+        "directions": {
+          "title": "Directions in one tap",
+          "body": "Each venue opens straight in Google Maps."
+        },
+        "watch": {
+          "title": "Watch from anywhere",
+          "body": "Family in Dubai, London or Bengaluru can watch the YouTube live stream on the same page."
+        }
+      }
+    },
+    "family": {
+      "eyebrow": "Plan together",
+      "title": "Bring the family in",
+      "intro": "Admins publish the site and manage photos and the team. Managers help with guests, events, invites and to-dos.",
+      "admin": "Admin",
+      "manager": "Manager",
+      "member1": "Meera · Bride",
+      "member2": "Arjun · Groom",
+      "member3": "Kavya · Cousin"
+    },
+    "faq": {
+      "eyebrow": "Questions",
+      "title": "Questions, answered",
+      "intro": "Everything you need to know before you start.",
+      "items": {
+        "free": {
+          "question": "Is Make My Marriage really free?",
+          "answer": "Yes. Your wedding website, WhatsApp invites, guest list, to-dos, photo gallery and live stream link are all free."
+        },
+        "app": {
+          "question": "Do my guests need to download an app or create an account?",
+          "answer": "No. Guests open your link in any browser. Only the couple and family members who help plan need an account."
+        },
+        "privacy": {
+          "question": "Who can see our wedding site?",
+          "answer": "Anyone you share the link with. Your site is hidden from search engines unless you choose otherwise, and you can unpublish it at any time. Guest details are never shown on the site."
+        },
+        "whatsapp": {
+          "question": "How does the WhatsApp invitation work?",
+          "answer": "Tap Invite next to a guest. WhatsApp opens with your message and site link, you pick the contact and send. We never send messages for you."
+        },
+        "stream": {
+          "question": "Can relatives outside India watch the Muhurtham?",
+          "answer": "Yes. Paste your YouTube live link on the event and it plays on your wedding site. Anyone with the link can watch an unlisted stream."
+        }
+      }
+    },
+    "finalCta": {
+      "eyebrow": "Get started in minutes",
+      "title": "Start your wedding page today",
+      "body": "Set up in one sitting. Free for every couple.",
+      "cta": "Create your wedding — it's free"
+    }
   },
   "NotFound": {
     "title": "This page isn't available",

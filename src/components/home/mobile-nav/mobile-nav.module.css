@@ -1,0 +1,26 @@
+@reference "../../../app/globals.css";
+
+.mobileNav {
+  @apply md:hidden;
+}
+
+.menuToggle {
+  @apply flex size-11 items-center justify-center rounded-full text-foreground transition-colors hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring;
+}
+
+.menuIcon {
+  @apply size-6;
+}
+
+/* Positioned against the sticky header. */
+.menuPanel {
+  @apply absolute inset-x-0 top-full border-b border-border bg-background px-5 pb-6 shadow-lg;
+}
+
+.menuList {
+  @apply flex flex-col;
+}
+
+.menuLink {
+  @apply block border-b border-border py-4 text-lg font-medium text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring;
+}

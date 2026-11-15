@@ -1,0 +1,177 @@
+@reference "../../../app/globals.css";
+
+/* scroll-mt keeps the heading clear of the sticky header when jumped to. */
+.features {
+  @apply scroll-mt-18 border-y border-border bg-muted py-20 lg:scroll-mt-20 lg:py-28;
+}
+
+.sectionInner {
+  @apply mx-auto w-full max-w-7xl px-5 lg:px-12;
+}
+
+.featureGrid {
+  @apply grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3;
+}
+
+/* Website card: browser window */
+.browserFrame {
+  @apply overflow-hidden rounded-2xl border border-border bg-muted p-4;
+}
+
+.browserBar {
+  @apply mb-3 flex items-center gap-3 border-b border-border pb-3;
+}
+
+.browserDots {
+  @apply flex shrink-0 gap-1.5;
+}
+
+.browserDot {
+  @apply size-2.5 rounded-full bg-border;
+}
+
+.browserUrl {
+  @apply flex min-w-0 items-center gap-1.5 rounded-md border border-border bg-background px-3 py-1 font-mono text-sm text-muted-foreground;
+}
+
+.browserLockIcon {
+  @apply size-3.5 shrink-0 text-primary;
+}
+
+.browserPage {
+  @apply rounded-xl border border-border bg-background p-5 text-center;
+}
+
+.browserCouple {
+  @apply font-serif text-xl font-bold text-foreground;
+}
+
+.browserSubtitle {
+  @apply mt-1 text-sm text-muted-foreground;
+}
+
+/* Shared row list (WhatsApp guests, to-dos) */
+.rowList {
+  @apply flex flex-col gap-2.5;
+}
+
+/* WhatsApp card */
+.guestRow {
+  @apply flex items-center justify-between gap-3 rounded-xl border border-border bg-muted p-2.5;
+}
+
+.guestInfo {
+  @apply flex min-w-0 items-center gap-2.5;
+}
+
+.guestAvatar {
+  @apply flex size-8 shrink-0 items-center justify-center rounded-full border border-border bg-background text-sm font-semibold text-foreground;
+}
+
+.guestName {
+  @apply truncate text-sm font-medium text-foreground;
+}
+
+.inviteChip {
+  @apply shrink-0 rounded-full bg-primary px-3 py-1 text-sm font-semibold text-primary-foreground;
+}
+
+.invitedChip {
+  @apply shrink-0 rounded-md border border-border bg-background px-2 py-0.5 text-sm font-medium text-muted-foreground;
+}
+
+/* Guest list card */
+.statsPanel {
+  @apply rounded-2xl border border-border bg-muted p-4;
+}
+
+.statsHeader {
+  @apply mb-2 flex items-baseline justify-between gap-2;
+}
+
+.statsNumber {
+  @apply font-serif text-3xl font-bold text-foreground;
+}
+
+.statsLabel {
+  @apply text-sm font-semibold text-muted-foreground;
+}
+
+.statsTrack {
+  @apply mb-4 h-2 w-full overflow-hidden rounded-full border border-border bg-background;
+}
+
+.statsFill {
+  @apply h-full w-[68%] rounded-full bg-primary;
+}
+
+.groupGrid {
+  @apply grid grid-cols-2 gap-2 text-center;
+}
+
+.groupBox {
+  @apply flex flex-col rounded-xl border border-border bg-background p-2;
+}
+
+.groupLabel {
+  @apply text-sm text-muted-foreground;
+}
+
+.groupValue {
+  @apply text-base font-bold text-foreground;
+}
+
+/* To-do card */
+.todoRow {
+  @apply flex items-center gap-3 rounded-xl border border-border bg-muted p-2.5;
+}
+
+.todoDoneIcon {
+  @apply size-5 shrink-0 text-primary;
+}
+
+.todoOpenIcon {
+  @apply size-5 shrink-0 rounded-full border-2 border-border;
+}
+
+.todoText {
+  @apply text-sm font-medium text-foreground;
+}
+
+.todoTextDone {
+  @apply text-sm font-medium text-muted-foreground line-through;
+}
+
+/* Photo gallery card */
+.galleryGrid {
+  @apply grid grid-cols-3 gap-2;
+}
+
+.galleryTile {
+  @apply flex aspect-square items-center justify-center rounded-xl border border-border bg-muted text-muted-foreground;
+}
+
+.galleryTileHighlight {
+  @apply flex aspect-square items-center justify-center rounded-xl border border-primary/20 bg-accent text-primary;
+}
+
+.galleryIcon {
+  @apply size-6;
+}
+
+/* Live stream card: dark panel */
+.livePanel {
+  @apply flex flex-col gap-3 rounded-2xl bg-foreground p-4 text-background;
+}
+
+.liveBadge {
+  @apply inline-flex w-fit items-center gap-2 rounded-full bg-primary px-3 py-1 text-sm font-semibold text-primary-foreground;
+}
+
+.liveDot {
+  @apply size-1.5 rounded-full bg-primary-foreground motion-safe:animate-pulse;
+}
+
+.liveNote {
+  @apply text-sm text-background/85;
+}

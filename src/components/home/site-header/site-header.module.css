@@ -1,0 +1,46 @@
+@reference "../../../app/globals.css";
+
+.header {
+  @apply sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-md;
+}
+
+.headerInner {
+  @apply mx-auto flex h-18 w-full max-w-7xl items-center justify-between gap-4 px-5 lg:h-20 lg:px-12;
+}
+
+.desktopNav {
+  @apply hidden md:block;
+}
+
+.navList {
+  @apply flex items-center gap-8;
+}
+
+.navLink {
+  @apply rounded-md text-base text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring;
+}
+
+.headerActions {
+  @apply flex items-center gap-3 sm:gap-5;
+}
+
+.loginLink {
+  @apply hidden rounded-md text-base font-medium text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring md:inline-block;
+}
+
+/* Overrides the shadcn Button size and hover. */
+.createButton {
+  @apply h-11 rounded-full px-5 text-base font-semibold hover:bg-primary-hover;
+}
+
+.createLabelLong {
+  @apply hidden sm:inline;
+}
+
+.createLabelShort {
+  @apply sm:hidden;
+}
+
+.createIcon {
+  @apply hidden size-5 sm:block;
+}

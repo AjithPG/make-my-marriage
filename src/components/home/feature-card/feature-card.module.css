@@ -1,0 +1,44 @@
+@reference "../../../app/globals.css";
+
+.featureCard {
+  @apply flex flex-col justify-between gap-6 rounded-[1.75rem] border border-border bg-background p-7 shadow-sm lg:p-8;
+}
+
+/* composes = this class also gets all of .featureCard (CSS modules feature). */
+.featureCardWide {
+  composes: featureCard;
+  @apply lg:col-span-2;
+}
+
+.featureCardWideOnTablet {
+  composes: featureCard;
+  @apply md:col-span-2 lg:col-span-1;
+}
+
+.cardText {
+  @apply flex flex-col;
+}
+
+.cardTag {
+  @apply mb-4 flex items-center gap-3 text-sm font-bold tracking-wider text-primary uppercase;
+}
+
+.cardIconBox {
+  @apply flex size-10 items-center justify-center rounded-xl bg-accent;
+}
+
+.cardIcon {
+  @apply size-5;
+}
+
+.cardTitle {
+  @apply mb-2 font-serif text-2xl font-semibold text-foreground;
+}
+
+.cardBody {
+  @apply max-w-lg text-base leading-relaxed text-muted-foreground;
+}
+
+.cardVisual {
+  @apply w-full;
+}

@@ -1,0 +1,148 @@
+@reference "../../../app/globals.css";
+
+.preview {
+  @apply relative flex w-full max-w-md flex-col items-center py-6;
+}
+
+.glow {
+  @apply pointer-events-none absolute -top-6 -right-6 -z-10 size-96 rounded-full bg-accent/80 blur-3xl;
+}
+
+/* Floating "Guests invited" card — tablet and up only. */
+.invitedCard {
+  @apply absolute top-10 -left-10 z-20 hidden w-64 -rotate-1 rounded-2xl border border-border bg-background p-4 shadow-xl sm:block;
+}
+
+.invitedHeader {
+  @apply mb-2 flex items-center justify-between;
+}
+
+.invitedLabel {
+  @apply flex items-center gap-2 text-sm font-semibold text-foreground;
+}
+
+.liveDot {
+  @apply size-2 rounded-full bg-primary motion-safe:animate-pulse;
+}
+
+.invitedPercent {
+  @apply text-sm font-bold text-primary;
+}
+
+.progressTrack {
+  @apply mb-2 h-2 w-full overflow-hidden rounded-full bg-muted;
+}
+
+.progressFill {
+  @apply h-full w-[68%] rounded-full bg-primary;
+}
+
+.invitedCount {
+  @apply text-sm text-muted-foreground;
+}
+
+/* Phone shell */
+.phone {
+  @apply relative z-10 w-full max-w-84 overflow-hidden rounded-[2.75rem] border-8 border-foreground bg-background p-3.5 shadow-2xl;
+}
+
+.phoneNotch {
+  @apply mx-auto mb-3 h-4 w-28 rounded-full bg-foreground;
+}
+
+.phoneScreen {
+  @apply rounded-[1.75rem] border border-border bg-background p-4;
+}
+
+.siteHeader {
+  @apply border-b border-border pb-4 text-center;
+}
+
+.monogram {
+  @apply mx-auto mb-2 flex size-12 items-center justify-center rounded-full border border-primary/20 bg-accent font-serif text-sm font-bold text-primary;
+}
+
+.coupleName {
+  @apply font-serif text-xl font-bold text-foreground;
+}
+
+.dateLine {
+  @apply mt-0.5 text-sm text-muted-foreground;
+}
+
+.urlChip {
+  @apply mt-2 inline-block max-w-full truncate rounded-full border border-border bg-muted px-3 py-0.5 text-sm text-muted-foreground;
+}
+
+.eventList {
+  @apply mt-4 flex flex-col gap-2.5;
+}
+
+.eventCard {
+  @apply rounded-2xl border border-border bg-muted p-3;
+}
+
+.eventCardHighlight {
+  @apply rounded-2xl border border-primary/20 bg-accent p-3.5;
+}
+
+.eventName {
+  @apply text-sm font-semibold text-foreground;
+}
+
+.eventNameHighlight {
+  @apply text-sm font-bold text-primary;
+}
+
+.eventTime {
+  @apply mt-1 text-sm font-medium text-foreground;
+}
+
+.eventMeta {
+  @apply text-sm text-muted-foreground;
+}
+
+.eventActions {
+  @apply mt-3 flex items-center gap-2;
+}
+
+.watchChip {
+  @apply inline-flex flex-1 items-center justify-center gap-1.5 rounded-full bg-primary py-1.5 text-sm font-semibold text-primary-foreground;
+}
+
+.directionsChip {
+  @apply inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1.5 text-sm font-medium text-foreground;
+}
+
+.chipIcon {
+  @apply size-3.5;
+}
+
+/* WhatsApp preview — below the phone on mobile, floating on tablet and up. */
+.whatsappCard {
+  @apply relative z-20 -mt-8 w-72 max-w-full rotate-1 rounded-2xl border border-border bg-background p-3.5 shadow-xl sm:absolute sm:-right-8 sm:-bottom-2 sm:mt-0;
+}
+
+.whatsappHeader {
+  @apply mb-2 flex items-center gap-2 border-b border-border pb-2;
+}
+
+.whatsappBadge {
+  @apply flex size-6 items-center justify-center rounded-full bg-[#25d366] text-white;
+}
+
+.whatsappIcon {
+  @apply size-3.5;
+}
+
+.whatsappTitle {
+  @apply text-sm font-semibold text-foreground;
+}
+
+.whatsappBubble {
+  @apply rounded-xl bg-muted p-2.5 text-sm leading-relaxed text-foreground;
+}
+
+.whatsappLink {
+  @apply mt-1 truncate font-medium text-primary underline;
+}
