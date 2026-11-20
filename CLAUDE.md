@@ -7,12 +7,13 @@ Decisions below override the docs where they differ.
 
 ## Architecture (fixed — ask before changing)
 
-> **Built so far (2026-11-18):** landing page, `/signup` (connected) + `/login` (design only), 404,
+> **Built so far (2026-11-20):** landing page, `/signup` + `/login` (both connected), `/welcome`, 404,
 > next-intl, shadcn `button`/`accordion`/`input`/`label`, `src/server/{env,db,errors,http,rate-limit}.ts`,
-> `src/server/auth/password.ts`, `src/modules/auth/` (schemas, user model, `signUp()`),
-> `POST /api/auth/signup`, `GET /api/health`, migrate-mongo with the `signup-indexes` migration.
-> Not set up yet (add each with the feature that first needs it): sessions, `TOKEN_PEPPER`, token and
-> cookie helpers, R2, Resend, Vercel config, cron, `proxy.ts`.
+> `src/server/auth/{password,token,cookie}.ts`, `TOKEN_PEPPER`, `src/modules/auth/` (schemas, user +
+> session models, `signUp()`, `login()`, `createSession()`/`deleteSession()`/`getSession()`),
+> `POST /api/auth/{signup,login,logout}`, `GET /api/health`, migrations `signup-indexes` + `login-indexes`.
+> Not set up yet (add each with the feature that first needs it): `handler()` auth option, sliding
+> expiry, forgot/reset password, R2, Resend, Vercel config, cron, `proxy.ts`.
 
 - Modular monolith, one Next.js App Router app, TypeScript strict everywhere.
 - Backend = Next.js Route Handlers in `src/app/api/**/route.ts`, Node.js runtime. Explicit REST API. No Express, no NestJS,

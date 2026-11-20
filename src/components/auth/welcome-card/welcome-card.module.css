@@ -1,0 +1,41 @@
+@reference "../../../app/globals.css";
+
+.card {
+  @apply flex min-h-80 flex-col gap-7 rounded-3xl border border-border bg-background p-6 shadow-sm sm:p-10;
+}
+
+.intro {
+  @apply flex flex-col gap-2;
+}
+
+.title {
+  @apply font-serif text-3xl font-normal tracking-tight break-words text-foreground lg:text-[2rem];
+}
+
+.subtitle {
+  @apply text-base text-muted-foreground;
+}
+
+.details {
+  @apply flex flex-col divide-y divide-border rounded-xl border border-border;
+}
+
+.detail {
+  @apply flex flex-col gap-1 px-4 py-3;
+}
+
+.detailLabel {
+  @apply text-sm font-medium text-muted-foreground;
+}
+
+.detailValue {
+  @apply text-base font-medium break-words text-foreground;
+}
+
+.note {
+  @apply text-base text-muted-foreground;
+}
+
+.loading {
+  @apply m-auto text-base text-muted-foreground;
+}

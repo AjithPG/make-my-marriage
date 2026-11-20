@@ -1,5 +1,5 @@
 import "server-only";
-import { hash } from "@node-rs/argon2";
+import { hash, verify } from "@node-rs/argon2";
 
 /**
  * OWASP minimum for Argon2id: 19 MiB memory, 2 passes, 1 thread.
@@ -14,4 +14,12 @@ const ARGON2_OPTIONS = {
 
 export function hashPassword(password: string): Promise<string> {
   return hash(password, ARGON2_OPTIONS);
+}
+
+/** Reads the settings from `passwordHash` itself, so old hashes keep working. */
+export function verifyPassword(
+  passwordHash: string,
+  password: string,
+): Promise<boolean> {
+  return verify(passwordHash, password);
 }

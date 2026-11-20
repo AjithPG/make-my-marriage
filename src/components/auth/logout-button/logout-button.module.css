@@ -1,0 +1,18 @@
+@reference "../../../app/globals.css";
+
+.wrapper {
+  @apply flex flex-col gap-3;
+}
+
+/* Overrides the shadcn Button: tall outline pill. */
+.button {
+  @apply h-13 w-full rounded-full text-base font-semibold;
+}
+
+.icon {
+  @apply size-5;
+}
+
+.error {
+  @apply text-sm font-medium text-destructive;
+}

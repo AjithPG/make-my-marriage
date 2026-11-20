@@ -96,9 +96,14 @@ export function created<T>(data: T): Response {
   return Response.json({ data }, { status: 201 });
 }
 
+/** Empty success (API Design §2). */
+export function noContent(): Response {
+  return new Response(null, { status: 204 });
+}
+
 /**
  * Client IP for rate-limit keys. On Vercel `x-real-ip` is set by the platform;
- * locally there is usually none, so every request shares the "unknown" key.
+ * locally `next dev` sends `x-forwarded-for: ::1`, so all local requests share one key.
  */
 export function clientIp(req: Request): string {
   return (

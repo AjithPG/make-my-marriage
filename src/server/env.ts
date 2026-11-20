@@ -49,3 +49,15 @@ export const dbEnv = parseGroup(
       ),
   }),
 );
+
+/**
+ * Secret mixed into every session/reset token hash (CLAUDE.md "Token pepper").
+ * Changing it signs everyone out. Generate with:
+ *   node -e "console.log(require('crypto').randomBytes(32).toString('base64url'))"
+ */
+export const authEnv = parseGroup(
+  "auth",
+  z.object({
+    TOKEN_PEPPER: z.string().min(32, "Must be at least 32 characters"),
+  }),
+);

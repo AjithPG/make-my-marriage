@@ -1,13 +1,13 @@
 # Project Status
 
-_Last updated: 18 Nov 2026 · Branch: `dev`_
+_Last updated: 20 Nov 2026 · Branch: `dev`_
 
 ## Features
 
-| #   | Feature        | Plan                                             | Status                                                         |
-| --- | -------------- | ------------------------------------------------ | -------------------------------------------------------------- |
-| 1   | Landing page   | —                                                | ✅ Done (leftovers in Auth Step 0)                             |
-| 2   | Authentication | [plan/authentication.md](plan/authentication.md) | 🔄 Step 2 built — waiting for your visual check against Stitch |
+| #   | Feature        | Plan                                             | Status                                                           |
+| --- | -------------- | ------------------------------------------------ | ---------------------------------------------------------------- |
+| 1   | Landing page   | —                                                | ✅ Done (leftovers in Auth Step 0)                               |
+| 2   | Authentication | [plan/authentication.md](plan/authentication.md) | 🔄 Sign-up, login, `/welcome`, logout built — next: forgot/reset |
 
 ---
 
@@ -57,12 +57,30 @@ _Goal: sign up, log in, log out, forgot/reset password, welcome screen. Plan: [p
 - ✅ S10 Typecheck, build, `curl` checks (201, 409, 400 ×3, 403, 429), Atlas check (Argon2id hash, no plain password)
 - ⬜ Browser run: sign up → `/login` shows "Account created" with the email filled in (you)
 
+### Login flow (notes: [plan/login/learning.md](plan/login/learning.md))
+
+- ✅ L1 `TOKEN_PEPPER` in `src/server/env.ts` (`authEnv`) and `.env.example`
+- ✅ L2 `server/auth/token.ts` (`createToken()`, peppered `hashToken()`)
+- ✅ L3 `server/auth/cookie.ts` (`readSessionToken()`, `setSessionCookie()`)
+- ✅ L4 `verifyPassword()` in `server/auth/password.ts`
+- ✅ L5 `session` model; `login-indexes` migration (`tokenHash` unique, `expiresAt` TTL), run on Atlas
+- ✅ L6 `lastLoginAt` on the `user` model
+- ✅ L7 `INVALID_CREDENTIALS`; `assertUnderLimit()` + `recordAttempt()`; `modules/auth/session.ts`; `login()` (dummy hash, old session replaced)
+- ✅ L8 `POST /api/auth/login`; `loginSchema` strict
+- ✅ L9 Login form calls the API; success → `/welcome`
+- ✅ L10 Typecheck, build, `curl` checks (200 + cookie, 401 ×2 same error, 400, 403, 429 after 5 failures), Atlas check (hash only, old session replaced); test data removed
+- ⬜ Browser run: log in with your account (you)
+- ✅ L11 `getSession()`; `/welcome` (name, email, Log out; no session → `/login`); `POST /api/auth/logout` (204, cookie cleared); `noContent()`
+- ✅ L12 `curl` checks: `/welcome` with cookie shows the user, without → `/login`, logout 204 + cookie cleared, other origin 403, old cookie rejected after logout; build (◐ `/welcome`); test data removed
+- ⬜ Browser run: log in → `/welcome` → Log out → `/login` (you)
+
 ### Step 3 — Rate limiter
 
-- ⬜ Install migrate-mongo (config, scripts, `MIGRATE_MONGODB_URI`)
-- ⬜ `src/server/rate-limit.ts` (model + limiter)
-- ⬜ Migration for its 2 indexes (with `down`)
-- ⬜ Limits: login 5 failed / 15 min, sign-up 3 / hour, forgot password 3 / hour
+- ✅ Install migrate-mongo (config, scripts, `MIGRATE_MONGODB_URI`), done in sign-up S1–S2
+- ✅ `src/server/rate-limit.ts` (model + limiter), sign-up S5
+- ✅ Migration for its 2 indexes (with `down`), `signup-indexes`
+- ✅ Limits: sign-up 3 / hour, login 5 failed / 15 min
+- ⬜ Forgot password 3 / hour (with Step 8)
 
 ### Step 4 — Auth helpers + token pepper
 

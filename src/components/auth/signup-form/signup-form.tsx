@@ -37,11 +37,27 @@ export function SignupForm() {
   const [pending, setPending] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const formErrorRef = useRef<HTMLParagraphElement>(null);
+  /** Set after a successful sign-up; reset when the page is hidden. */
+  const submittedFormRef = useRef<HTMLFormElement | null>(null);
 
   // Move focus to a form-level error so keyboard and screen-reader users notice it.
   useEffect(() => {
     if (formError) formErrorRef.current?.focus();
   }, [formError]);
+
+  // With cacheComponents, Next.js keeps visited pages alive (hidden) and shows
+  // them again with the same state; effects are cleaned up when hidden. Reset
+  // there after a successful sign-up, or going back to /signup would show
+  // "Creating account…" with the old values filled in.
+  useEffect(() => {
+    return () => {
+      const form = submittedFormRef.current;
+      if (!form) return;
+      submittedFormRef.current = null;
+      form.reset();
+      setPending(false);
+    };
+  }, []);
 
   const errorFor = (field: Field) => {
     const key = errors[field];
@@ -67,6 +83,7 @@ export function SignupForm() {
 
     if (response.status === 201) {
       sessionStorage.setItem(SIGNED_UP_EMAIL_KEY, data.email);
+      submittedFormRef.current = form;
       router.push("/login");
       return; // stay "pending" until the login page shows
     }

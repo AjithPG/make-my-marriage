@@ -45,16 +45,43 @@ type RateLimitOptions = {
 export async function rateLimit(options: RateLimitOptions): Promise<void> {
   await connectDb();
   const counter = await increment(options.key, options.windowMs);
+  if (counter.count > options.limit) throw rateLimited(counter.expiresAt);
+}
 
-  if (counter.count > options.limit) {
-    const retryAfter = Math.max(
-      1,
-      Math.ceil((counter.expiresAt.getTime() - Date.now()) / 1000),
-    );
-    throw new AppError("RATE_LIMITED", "Too many requests. Try again later.", {
-      headers: { "Retry-After": String(retryAfter) },
-    });
-  }
+/**
+ * For limits on failures only (e.g. failed logins): throws RATE_LIMITED if
+ * `key` already reached `limit` in its window. Counts nothing; pair with
+ * `recordAttempt()` after a failure.
+ */
+export async function assertUnderLimit({
+  key,
+  limit,
+}: Pick<RateLimitOptions, "key" | "limit">): Promise<void> {
+  await connectDb();
+  const counter = await RateLimitModel.findOne({
+    key,
+    expiresAt: { $gt: new Date() },
+  }).lean();
+  if (counter && counter.count >= limit) throw rateLimited(counter.expiresAt);
+}
+
+/** Counts one attempt for `key` without checking the limit. */
+export async function recordAttempt({
+  key,
+  windowMs,
+}: Pick<RateLimitOptions, "key" | "windowMs">): Promise<void> {
+  await connectDb();
+  await increment(key, windowMs);
+}
+
+function rateLimited(windowEnd: Date): AppError {
+  const retryAfter = Math.max(
+    1,
+    Math.ceil((windowEnd.getTime() - Date.now()) / 1000),
+  );
+  return new AppError("RATE_LIMITED", "Too many requests. Try again later.", {
+    headers: { "Retry-After": String(retryAfter) },
+  });
 }
 
 async function increment(

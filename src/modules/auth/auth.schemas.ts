@@ -44,8 +44,11 @@ export const signupSchema = z.strictObject({
   password: newPassword,
 });
 
-/** Login doesn't apply the length rules, so it never hints at what a valid password looks like. */
-export const loginSchema = z.object({
+/**
+ * Strict like sign-up. Login doesn't apply the length rules, so it never hints
+ * at what a valid password looks like.
+ */
+export const loginSchema = z.strictObject({
   email,
   password: z
     .string()

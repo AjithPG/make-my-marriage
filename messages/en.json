@@ -268,6 +268,7 @@
       "passwordTooLong": "Use 128 characters or fewer",
       "passwordCommon": "This password is too common. Choose another.",
       "emailTaken": "An account with this email already exists. Log in instead?",
+      "invalidCredentials": "Email or password is incorrect",
       "tooManyAttempts": "Too many attempts. Try again in {minutes, plural, one {# minute} other {# minutes}}.",
       "generic": "Something went wrong. Please try again."
     },
@@ -286,9 +287,21 @@
       "subtitle": "Pick up where you left off.",
       "forgotPassword": "Forgot password?",
       "submit": "Log in",
+      "submitting": "Logging in…",
       "newHere": "New here?",
       "createWedding": "Create your wedding",
       "signedUp": "Account created. Log in to continue."
+    },
+    "welcome": {
+      "metaTitle": "Welcome — Make My Marriage",
+      "title": "Welcome, {name}",
+      "subtitle": "You're logged in.",
+      "nameLabel": "Name",
+      "emailLabel": "Email",
+      "comingSoon": "Your wedding dashboard is coming soon.",
+      "logOut": "Log out",
+      "loggingOut": "Logging out…",
+      "loading": "Loading your account…"
     }
   }
 }

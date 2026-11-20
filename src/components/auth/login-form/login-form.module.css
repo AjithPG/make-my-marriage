@@ -34,3 +34,12 @@
 .submit:hover .submitIcon {
   @apply motion-safe:translate-x-0.5;
 }
+
+/* Form-level error (wrong email or password, rate limit, network). Focused when it appears. */
+.formError {
+  @apply flex items-start gap-2 rounded-xl border border-destructive/30 bg-destructive/5 p-3 text-sm font-medium text-destructive focus-visible:outline-2 focus-visible:outline-ring;
+}
+
+.formErrorIcon {
+  @apply mt-0.5 size-4 shrink-0;
+}

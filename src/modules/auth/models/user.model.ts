@@ -7,9 +7,9 @@ import {
   type Model,
 } from "mongoose";
 
-// Database Design §3.1 — only the fields sign-up needs. Later features add
-// their own fields (login: lastLoginAt, password change: passwordChangedAt,
-// notifications: notificationPrefs).
+// Database Design §3.1 — only the fields sign-up and login need. Later features
+// add their own (password change: passwordChangedAt, notifications:
+// notificationPrefs).
 const userSchema = new Schema(
   {
     email: {
@@ -27,6 +27,8 @@ const userSchema = new Schema(
       minlength: 1,
       maxlength: 80,
     },
+    /** Set on every successful login. */
+    lastLoginAt: Date,
   },
   { collection: "users", timestamps: true },
 );
