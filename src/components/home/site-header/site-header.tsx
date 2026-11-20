@@ -31,11 +31,11 @@ export async function SiteHeader() {
         </nav>
 
         <div className={styles.headerActions}>
-          <a href="#" className={styles.loginLink}>
+          <a href="/login" className={styles.loginLink}>
             {t("nav.logIn")}
           </a>
           <Button asChild className={styles.createButton}>
-            <a href="#">
+            <a href="/signup">
               <span className={styles.createLabelLong}>{t("nav.create")}</span>
               <span className={styles.createLabelShort}>
                 {t("nav.createShort")}
