@@ -71,7 +71,7 @@ export function MobileNav({
             </li>
           ))}
           <li>
-            <a href="#" className={styles.menuLink} onClick={close}>
+            <a href="/login" className={styles.menuLink} onClick={close}>
               {loginLabel}
             </a>
           </li>
