@@ -5,8 +5,6 @@
   },
   "Marketing": {
     "brand": "Make My Marriage",
-    "homeLink": "Make My Marriage home",
-    "skipToContent": "Skip to content",
     "nav": {
       "label": "Main",
       "features": "Features",
@@ -73,7 +71,6 @@
       "eyebrow": "How it works",
       "title": "Live in three steps",
       "intro": "Set up around the way Kerala families celebrate.",
-      "stepLabel": "Step {number}",
       "steps": {
         "events": {
           "title": "Add your events",
@@ -222,5 +219,76 @@
     "title": "This page isn't available",
     "body": "The link may be wrong, or the page may have been unpublished.",
     "home": "Go to the home page"
+  },
+  "Auth": {
+    "panel": {
+      "trust": "Free for every couple · No app for guests · Private by default",
+      "signup": {
+        "title": "Start your wedding page in minutes.",
+        "points": {
+          "website": "Your own wedding website",
+          "whatsapp": "WhatsApp invites for every family",
+          "family": "Plan together with family"
+        }
+      },
+      "login": {
+        "title": "Welcome back to your wedding planning.",
+        "subtitle": "Manage your events, guest list and invites in one place."
+      },
+      "invited": {
+        "eyebrow": "Guest list",
+        "title": "Guests invited",
+        "count": "142 / 210",
+        "invited": "Invited: {count}",
+        "notYet": "Not yet invited: {count}"
+      },
+      "whatsapp": {
+        "title": "WhatsApp invite",
+        "message": "“Dear Rajan Uncle & Family, we joyfully invite you to the wedding of Meera & Arjun.”",
+        "link": "makemymarriage.in/meera-arjun",
+        "sent": "Sent 10m ago"
+      }
+    },
+    "fields": {
+      "name": "Full name",
+      "namePlaceholder": "Your name",
+      "email": "Email",
+      "emailPlaceholder": "you@example.com",
+      "emailNote": "Check this is right — password reset links go here.",
+      "password": "Password",
+      "newPasswordPlaceholder": "Create a password",
+      "passwordHint": "At least 8 characters",
+      "showPassword": "Show password"
+    },
+    "errors": {
+      "nameRequired": "Enter your name",
+      "emailInvalid": "Enter a valid email address",
+      "passwordRequired": "Enter your password",
+      "passwordTooShort": "Use at least 8 characters",
+      "passwordTooLong": "Use 128 characters or fewer",
+      "passwordCommon": "This password is too common. Choose another.",
+      "emailTaken": "An account with this email already exists. Log in instead?",
+      "tooManyAttempts": "Too many attempts. Try again in {minutes, plural, one {# minute} other {# minutes}}.",
+      "generic": "Something went wrong. Please try again."
+    },
+    "signup": {
+      "metaTitle": "Create your account — Make My Marriage",
+      "title": "Create your account",
+      "subtitle": "Free for every couple. Takes about a minute.",
+      "submit": "Create account",
+      "haveAccount": "Already have an account?",
+      "logIn": "Log in",
+      "submitting": "Creating account…"
+    },
+    "login": {
+      "metaTitle": "Log in — Make My Marriage",
+      "title": "Log in",
+      "subtitle": "Pick up where you left off.",
+      "forgotPassword": "Forgot password?",
+      "submit": "Log in",
+      "newHere": "New here?",
+      "createWedding": "Create your wedding",
+      "signedUp": "Account created. Log in to continue."
+    }
   }
 }

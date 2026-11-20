@@ -1,0 +1,47 @@
+@reference "../../../app/globals.css";
+
+.field {
+  @apply flex flex-col gap-2;
+}
+
+.labelRow {
+  @apply flex items-center justify-between gap-3;
+}
+
+.label {
+  @apply text-sm font-semibold text-foreground;
+}
+
+.control {
+  @apply relative;
+}
+
+/* Overrides the shadcn Input: taller, 16px text (no iOS zoom), wine focus ring. */
+.input {
+  @apply h-13 rounded-xl border-border bg-background px-4 text-base shadow-none focus-visible:border-primary focus-visible:ring-primary/20 aria-invalid:border-destructive aria-invalid:ring-destructive/20;
+}
+
+.inputWithToggle {
+  composes: input;
+  @apply pr-13;
+}
+
+.toggle {
+  @apply absolute top-1/2 right-2 flex size-10 -translate-y-1/2 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring;
+}
+
+.toggleIcon {
+  @apply size-5;
+}
+
+.hint {
+  @apply text-sm text-muted-foreground;
+}
+
+.error {
+  @apply flex items-start gap-1.5 text-sm font-medium text-destructive;
+}
+
+.errorIcon {
+  @apply mt-0.5 size-4 shrink-0;
+}

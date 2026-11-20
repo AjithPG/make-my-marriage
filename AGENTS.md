@@ -34,14 +34,14 @@ Where the PRD disagrees with the other three docs on technical detail, the other
 
 Built and working:
 
-- Next.js app shell: root layout, landing page, 404 page, next-intl (English), shadcn `Button`.
-- `src/proxy.ts`: redirects `/w/*` to `/login?returnTo=…` when the `mm_session` cookie is missing.
-- Server infrastructure: env validation, cached MongoDB connection, `handler()` wrapper, error codes.
-- Integrations: R2 presigned PUT / delete prefix / public URL, Resend `sendEmail()`, Argon2id,
-  random tokens, session cookie helpers.
-- 12 Mongoose models (all collections except `rateLimits`) and a migration creating their 25 indexes.
-- `GET /api/health` (pings MongoDB) and `GET /api/cron/cleanup` (auth-checked, no jobs yet).
-- `vercel.json`: region `bom1`, daily cron.
+- Next.js app shell: root layout, landing page, 404 page, next-intl (English), shadcn `button` and `accordion`.
+- Server infrastructure: env validation (`APP_URL`, `MONGODB_URI`), cached MongoDB connection,
+  `handler()` wrapper, error codes.
+- `GET /api/health` (pings MongoDB).
+
+Not set up yet (add each only with the feature that needs it, including its package and env vars):
+Mongoose models, migrate-mongo, auth helpers (cookie, token, Argon2id), `src/proxy.ts`, R2, Resend,
+`vercel.json`, cron routes.
 
 Not built yet: every product feature — auth endpoints, sessions in the DB, rate limiting, weddings,
 team, events, guests, invitations, photos, to-dos, notifications, guest site, dashboard pages.
@@ -65,37 +65,29 @@ team, events, guests, invitations, photos, to-dos, notifications, guest site, da
 | UI            | Tailwind CSS 4.3 (via `@tailwindcss/turbopack`, no PostCSS file), shadcn/ui on Radix, lucide icons, `cn` package |
 | i18n          | next-intl 4, English only, no locale routing, strings in `messages/en.json`                                      |
 | Validation    | Zod 4                                                                                                            |
-| Database      | MongoDB Atlas (ap-south-1) + Mongoose 9, migrations with migrate-mongo 14                                        |
-| Auth          | Custom email/password, `@node-rs/argon2`, server-side sessions, `mm_session` cookie                              |
-| Media / email | Cloudflare R2 via `@aws-sdk/client-s3` + presigner; Resend                                                       |
-| Hosting       | Vercel (`bom1`), Vercel Cron, `@vercel/functions`                                                                |
+| Database      | MongoDB Atlas (ap-south-1) + Mongoose 9; migrate-mongo planned for indexes                                       |
+| Auth          | Planned: custom email/password, `@node-rs/argon2`, server-side sessions, `mm_session` cookie                     |
+| Media / email | Planned: Cloudflare R2 via `@aws-sdk/client-s3` + presigner; Resend                                              |
+| Hosting       | Planned: Vercel (`bom1`), Vercel Cron                                                                            |
 | Formatting    | Prettier + Tailwind plugin. No ESLint, tests, git hooks or CI yet (deferred)                                     |
 
 ## 5. Code map
 
 ```text
 src/
-├─ proxy.ts                     cookie-presence redirect for /w/*
 ├─ i18n/request.ts              next-intl config (locale "en", time zone Asia/Kolkata)
 ├─ app/                         ROUTING ONLY
 │  ├─ layout.tsx · globals.css · not-found.tsx
 │  ├─ (marketing)/page.tsx      landing page
-│  └─ api/health · api/cron/cleanup
+│  └─ api/health
 ├─ modules/<domain>/            BUSINESS LOGIC (+ that domain's models/)
-│  auth (user, session, password-reset) · weddings · team (membership, team-invite)
-│  events · guests · invitations · photos · todos · notifications
+│  (empty — created per feature)
 ├─ server/                      SERVER-ONLY INFRASTRUCTURE
-│  ├─ env.ts      lazily validated env groups: appEnv, dbEnv, r2Env, emailEnv, cronEnv
-│  ├─ db.ts       connectDb() (cached, pool 5, autoIndex off), withTransaction()
-│  ├─ errors.ts   AppError, ErrorCode → HTTP status
-│  ├─ http.ts     handler(), ok(), created(), list(), noContent(), clientIp()
-│  ├─ r2.ts       presignPut(), deletePrefix(), publicUrl()
-│  ├─ email.ts    sendEmail()
-│  ├─ cron.ts     assertCronAuth()
-│  └─ auth/       cookie.ts · token.ts · password.ts (no Mongoose here)
-└─ components/ui/button.tsx     shadcn components
-migrations/                     migrate-mongo files (native driver, CommonJS)
-scripts/check-indexes.ts        model vs database index diff
+│  ├─ env.ts      lazily validated env groups: appEnv, dbEnv
+│  ├─ db.ts       connectDb() (cached, pool 5, autoIndex off)
+│  ├─ errors.ts   AppError, ErrorCode → HTTP status (only codes in use)
+│  └─ http.ts     handler(), ok()
+└─ components/                  home/ sections · ui/ shadcn (button, accordion)
 messages/en.json                all UI strings
 ```
 
@@ -143,8 +135,8 @@ messages/en.json                all UI strings
    ```
 
 5. **Indexes:** if the feature adds or changes an index, change the model **and** add a migration
-   (`npm run migrate:create -- <name>`, with a `down`), then run `npm run db:check-indexes`.
-6. **Multi-document writes** listed in Database Design §5 use `withTransaction()`.
+   (`npm run migrate:create -- <name>`, with a `down`). Install migrate-mongo with the first one.
+6. **Multi-document writes** listed in Database Design §5 run in a transaction (add `withTransaction()` to `server/db.ts` when the first one appears).
 7. **UI strings** go in `messages/en.json`, never hard-coded.
 8. **Verify** (section 10) before calling it done.
 
@@ -181,14 +173,12 @@ messages/en.json                all UI strings
 
 ## 10. Commands and verification
 
-| Command                                                                            | Does                                     |
-| ---------------------------------------------------------------------------------- | ---------------------------------------- |
-| `npm run dev`                                                                      | Dev server on :3000 (needs `.env.local`) |
-| `npm run build`                                                                    | Production build; type errors fail it    |
-| `npm run typecheck`                                                                | `next typegen && tsc --noEmit`           |
-| `npm run format` / `format:check`                                                  | Prettier                                 |
-| `npm run migrate` / `migrate:down` / `migrate:status` / `migrate:create -- <name>` | migrate-mongo (`MIGRATE_MONGODB_URI`)    |
-| `npm run db:check-indexes`                                                         | Diff model indexes against the database  |
+| Command                           | Does                                     |
+| --------------------------------- | ---------------------------------------- |
+| `npm run dev`                     | Dev server on :3000 (needs `.env.local`) |
+| `npm run build`                   | Production build; type errors fail it    |
+| `npm run typecheck`               | `next typegen && tsc --noEmit`           |
+| `npm run format` / `format:check` | Prettier                                 |
 
 Before saying a change is done: `npm run typecheck`, `npm run build` and `npm run format:check` pass,
 and any new endpoint has been called once with `curl` (happy path plus one error case).
@@ -196,8 +186,8 @@ and any new endpoint has been called once with `curl` (happy path plus one error
 ## 11. Environment
 
 Copy `.env.example` to `.env.local`. Variables are validated in groups, only when code that needs
-them runs: `APP_URL`, `MONGODB_URI` (app), `MIGRATE_MONGODB_URI` (scripts only, never on Vercel),
-`R2_*`, `RESEND_API_KEY`, `EMAIL_FROM`, `CRON_SECRET`. Never use the `NEXT_PUBLIC_` prefix for secrets;
+them runs. Today: `APP_URL`, `MONGODB_URI`. Features add theirs (`TOKEN_PEPPER`, `MIGRATE_MONGODB_URI`,
+`R2_*`, `RESEND_API_KEY`, `EMAIL_FROM`, `CRON_SECRET`) to `env.ts` and `.env.example`. Never use the `NEXT_PUBLIC_` prefix for secrets;
 read env only through `src/server/env.ts`.
 
 ## 12. Gotchas
@@ -205,8 +195,8 @@ read env only through `src/server/env.ts`.
 - Scripts that import `src/` must run with `tsx --conditions=react-server`, or `server-only` throws.
 - Register models as `(models.X as Model<X> | undefined) ?? model("X", schema)` to survive hot reload.
 - Never run migrations in the Vercel build; run them against the target DB before merging to `main`.
-- `src/proxy.ts` can't import `server-only` code, so it repeats the `mm_session` name; keep it in sync
-  with `src/server/auth/cookie.ts`.
+- When `src/proxy.ts` is added: it can't import `server-only` code, so it repeats the `mm_session`
+  name; keep it in sync with `src/server/auth/cookie.ts`.
 - MongoDB's TTL monitor runs about once a minute: always check `expiresAt` in queries, don't rely on TTL.
 - Vercel Cron runs only on production deployments, in UTC; cron jobs must be idempotent.
 - The session cookie is `Secure` only in production (Safari rejects Secure cookies on http://localhost).

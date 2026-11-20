@@ -1,6 +1,5 @@
 import "server-only";
-import { attachDatabasePool } from "@vercel/functions";
-import mongoose, { type ClientSession } from "mongoose";
+import mongoose, { mongo } from "mongoose";
 import { dbEnv } from "./env";
 
 /**
@@ -25,21 +24,15 @@ mongoose.set("strictQuery", true);
 export async function connectDb(): Promise<typeof mongoose> {
   if (cache.conn) return cache.conn;
 
-  cache.promise ??= mongoose
-    .connect(dbEnv().MONGODB_URI, {
-      bufferCommands: false, // fail fast instead of queueing when disconnected
-      maxPoolSize: 5, // keep Atlas connection counts low across instances
-      serverSelectionTimeoutMS: 5_000,
-      autoIndex: false, // indexes are created by migrations only
-      autoCreate: false,
-      writeConcern: { w: "majority" },
-      readPreference: "primary",
-    })
-    .then((m) => {
-      // Lets Vercel Fluid compute close idle sockets before an instance is suspended.
-      attachDatabasePool(m.connection.getClient());
-      return m;
-    });
+  cache.promise ??= mongoose.connect(dbEnv().MONGODB_URI, {
+    bufferCommands: false, // fail fast instead of queueing when disconnected
+    maxPoolSize: 5, // keep Atlas connection counts low across instances
+    serverSelectionTimeoutMS: 5_000,
+    autoIndex: false, // indexes are created by migrations only
+    autoCreate: false,
+    writeConcern: { w: "majority" },
+    readPreference: "primary",
+  });
 
   try {
     cache.conn = await cache.promise;
@@ -50,13 +43,7 @@ export async function connectDb(): Promise<typeof mongoose> {
   return cache.conn;
 }
 
-/**
- * Runs `fn` inside a MongoDB transaction (Database Design §5), retrying on
- * transient errors. Pass `session` to every read and write inside `fn`.
- */
-export async function withTransaction<T>(
-  fn: (session: ClientSession) => Promise<T>,
-): Promise<T> {
-  const { connection } = await connectDb();
-  return connection.transaction(fn);
+/** True for MongoDB's duplicate-key error (a unique index rejected the write). */
+export function isDuplicateKeyError(error: unknown): boolean {
+  return error instanceof mongo.MongoServerError && error.code === 11000;
 }

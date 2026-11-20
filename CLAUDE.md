@@ -7,6 +7,13 @@ Decisions below override the docs where they differ.
 
 ## Architecture (fixed — ask before changing)
 
+> **Built so far (2026-11-18):** landing page, `/signup` (connected) + `/login` (design only), 404,
+> next-intl, shadcn `button`/`accordion`/`input`/`label`, `src/server/{env,db,errors,http,rate-limit}.ts`,
+> `src/server/auth/password.ts`, `src/modules/auth/` (schemas, user model, `signUp()`),
+> `POST /api/auth/signup`, `GET /api/health`, migrate-mongo with the `signup-indexes` migration.
+> Not set up yet (add each with the feature that first needs it): sessions, `TOKEN_PEPPER`, token and
+> cookie helpers, R2, Resend, Vercel config, cron, `proxy.ts`.
+
 - Modular monolith, one Next.js App Router app, TypeScript strict everywhere.
 - Backend = Next.js Route Handlers in `src/app/api/**/route.ts`, Node.js runtime. Explicit REST API. No Express, no NestJS,
   **no server actions for mutations** — every write goes through `/api`.
@@ -33,13 +40,13 @@ Decisions below override the docs where they differ.
 
 ## Folder rules
 
-| Folder                  | Holds                                                                              | Never holds                          |
-| ----------------------- | ---------------------------------------------------------------------------------- | ------------------------------------ |
-| `src/app/`              | Routing only: pages, layouts, route handlers (thin)                                | Business rules, DB access            |
-| `src/modules/<domain>/` | Business logic and that domain's Mongoose models (`models/`)                       | Imports from `next/*`                |
-| `src/server/`           | Server-only infrastructure (env, db, http, errors, R2, email, cron, auth plumbing) | Business rules, feature models       |
-| `src/components/`       | UI components (`ui/` = shadcn)                                                     | Data access                          |
-| `src/lib/`              | Client-safe, framework-agnostic helpers used by **2+ features**                    | Feature helpers, server code, "misc" |
+| Folder                  | Holds                                                                           | Never holds                          |
+| ----------------------- | ------------------------------------------------------------------------------- | ------------------------------------ |
+| `src/app/`              | Routing only: pages, layouts, route handlers (thin)                             | Business rules, DB access            |
+| `src/modules/<domain>/` | Business logic and that domain's Mongoose models (`models/`)                    | Imports from `next/*`                |
+| `src/server/`           | Server-only infrastructure (env, db, http, errors; later R2, email, cron, auth) | Business rules, feature models       |
+| `src/components/`       | UI components (`ui/` = shadcn)                                                  | Data access                          |
+| `src/lib/`              | Client-safe, framework-agnostic helpers used by **2+ features**                 | Feature helpers, server code, "misc" |
 
 - Mongoose models live in their domain module (`src/modules/<domain>/models/*.model.ts`). There is no global models folder.
 - Every file in `src/server` and `src/modules` starts with `import 'server-only'`.
@@ -54,7 +61,7 @@ Decisions below override the docs where they differ.
   rules for sign-up, login, reset and the session lifecycle. May import Mongoose, `server/db`,
   `server/errors`, `server/auth`. Never imports `next/*`.
 - `src/server/auth/` — how auth is _carried_: `cookie.ts` (mm_session read/set/clear),
-  `token.ts` (random token + SHA-256), `password.ts` (Argon2id). Never imports Mongoose or models;
+  `token.ts` (random token + peppered hash, see Token pepper below), `password.ts` (Argon2id). Never imports Mongoose or models;
   no business rules.
 - Dependency direction: `modules/auth` → `server/auth`, never the reverse.
 
@@ -74,10 +81,11 @@ Route handler → `handler()` (`src/server/http.ts`) → module code → Mongoos
 
 - Indexes are declared in the model **and** created by a migration (`migrations/`, migrate-mongo,
   native driver). `autoIndex: false` everywhere. Never run migrations in the Vercel build.
-- `npm run db:check-indexes` diffs model indexes against the live database.
 - migrate-mongo keeps its own bookkeeping in the `migrations` and `migrationsLock` collections.
 - New migration: `npm run migrate:create -- <name>`; always write `down` too.
-- Scripts importing `src/` run with `tsx --conditions=react-server` (otherwise `server-only` throws).
+- Models are created with the feature that first needs them; none exist yet. `withTransaction()`, an
+  index-drift check script and `tsx` are added back only when a feature needs them (scripts importing
+  `src/` must run with `tsx --conditions=react-server`, otherwise `server-only` throws).
 - Register models as `models.X ?? model(...)` to survive dev hot reload.
 
 ## Decisions taken during scaffold planning (override the docs)
@@ -93,20 +101,25 @@ Route handler → `handler()` (`src/server/http.ts`) → module code → Mongoos
   must add a conversion path.
 - Password change re-issues the current session (it would otherwise be rejected by `passwordChangedAt`).
 - Cron cleanup also deletes used/expired team invites older than 30 days.
-- No `SESSION_SECRET`: tokens are 256-bit random, a pepper adds nothing.
+- **Token pepper** (decided 2026-11-16, replaces "no `SESSION_SECRET`"; built in
+  `plan/authentication.md` Step 4): session and reset tokens are hashed as
+  HMAC-SHA256(token, `TOKEN_PEPPER`), not plain SHA-256. Passwords stay plain Argon2id.
+  - _What it is:_ a secret kept outside the database (env var, never in git), mixed into every
+    token hash. The database stores only `hash(token + pepper)`.
+  - _Why:_ someone with database access alone can't create a fake session row to log in as a
+    user, because they can't produce a valid hash without the pepper.
+  - _Rule:_ never change it casually — a new pepper signs everyone out and voids open reset links.
 - CSP without nonces (nonces would force dynamic rendering of cached guest pages).
 - Feature-time decisions: `photos/complete` sync vs 202+poll; HEIC conversion approach.
 
 ## Commands
 
-| Command                                               | Does                                        |
-| ----------------------------------------------------- | ------------------------------------------- |
-| `npm run dev`                                         | Start Next.js locally (needs `.env.local`)  |
-| `npm run build`                                       | Production build (type errors fail it)      |
-| `npm run typecheck`                                   | `tsc --noEmit`                              |
-| `npm run format`                                      | Prettier write                              |
-| `npm run migrate` / `migrate:down` / `migrate:status` | migrate-mongo against `MIGRATE_MONGODB_URI` |
-| `npm run db:check-indexes`                            | Compare model indexes with the database     |
+| Command             | Does                                       |
+| ------------------- | ------------------------------------------ |
+| `npm run dev`       | Start Next.js locally (needs `.env.local`) |
+| `npm run build`     | Production build (type errors fail it)     |
+| `npm run typecheck` | `tsc --noEmit`                             |
+| `npm run format`    | Prettier write                             |
 
 ## Conventions
 

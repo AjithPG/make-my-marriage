@@ -1,0 +1,39 @@
+@reference "../../../app/globals.css";
+
+.column {
+  @apply flex flex-1 flex-col justify-between gap-10 px-5 pt-8 pb-8 sm:px-10 lg:px-16 lg:py-10;
+}
+
+/* The form is 400px wide and centred in the column. */
+.main {
+  @apply mx-auto flex w-full max-w-100 flex-col gap-7 lg:my-auto;
+}
+
+.intro {
+  @apply flex flex-col gap-2;
+}
+
+.title {
+  @apply font-serif text-3xl font-normal tracking-tight text-foreground lg:text-[2rem];
+}
+
+.subtitle {
+  @apply text-base text-muted-foreground;
+}
+
+.switch {
+  @apply text-center text-base text-muted-foreground;
+}
+
+.switchLink {
+  @apply rounded-sm font-semibold text-primary underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring;
+}
+
+.footer {
+  @apply mx-auto flex w-full max-w-100 flex-col gap-2 border-t border-border pt-6 text-center text-sm text-muted-foreground lg:max-w-none lg:text-left;
+}
+
+/* Desktop shows the trust line in the wine panel instead. */
+.footerTrust {
+  @apply lg:hidden;
+}

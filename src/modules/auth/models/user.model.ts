@@ -3,21 +3,13 @@ import {
   Schema,
   model,
   models,
-  type HydratedDocument,
   type InferSchemaType,
   type Model,
 } from "mongoose";
 
-// Database Design §3.1
-const notificationPrefsSchema = new Schema(
-  {
-    eventReminders: { type: Boolean, default: true },
-    todoReminders: { type: Boolean, default: true },
-    activity: { type: Boolean, default: true },
-  },
-  { _id: false },
-);
-
+// Database Design §3.1 — only the fields sign-up needs. Later features add
+// their own fields (login: lastLoginAt, password change: passwordChangedAt,
+// notifications: notificationPrefs).
 const userSchema = new Schema(
   {
     email: {
@@ -35,21 +27,15 @@ const userSchema = new Schema(
       minlength: 1,
       maxlength: 80,
     },
-    passwordChangedAt: Date,
-    notificationPrefs: {
-      type: notificationPrefsSchema,
-      required: true,
-      default: () => ({}),
-    },
-    lastLoginAt: Date,
   },
   { collection: "users", timestamps: true },
 );
 
+// Same index as migrations/20261118000000-signup-indexes.js.
 userSchema.index({ email: 1 }, { unique: true });
 
 export type User = InferSchemaType<typeof userSchema>;
-export type UserDocument = HydratedDocument<User>;
 
-export const UserModel =
-  (models.User as Model<User> | undefined) ?? model("User", userSchema);
+// One explicit type: a union of two Model types breaks query overloads.
+export const UserModel: Model<User> =
+  (models.User as Model<User> | undefined) ?? model<User>("User", userSchema);

@@ -28,3 +28,17 @@
 .brandNameSmall {
   @apply font-serif text-lg font-semibold text-foreground;
 }
+
+/* Inverse tone, used on the wine auth panel. */
+.brandLinkInverse {
+  composes: brandLink;
+  @apply focus-visible:outline-white;
+}
+
+.brandMarkInverse {
+  @apply flex size-9 items-center justify-center rounded-xl border border-white/20 bg-white/15 text-white shadow-sm;
+}
+
+.brandNameInverse {
+  @apply font-serif text-xl font-semibold tracking-tight text-white;
+}

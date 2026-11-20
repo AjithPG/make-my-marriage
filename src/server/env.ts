@@ -35,10 +35,6 @@ export const appEnv = parseGroup(
       .enum(["development", "test", "production"])
       .default("development"),
     APP_URL: url.transform((u) => new URL(u).origin),
-    // Set by Vercel. See https://vercel.com/docs/environment-variables/system-environment-variables
-    VERCEL_ENV: z.enum(["development", "preview", "production"]).optional(),
-    VERCEL_URL: z.string().optional(),
-    VERCEL_BRANCH_URL: z.string().optional(),
   }),
 );
 
@@ -51,31 +47,5 @@ export const dbEnv = parseGroup(
         /^mongodb(\+srv)?:\/\//,
         "Must be a mongodb:// or mongodb+srv:// URI",
       ),
-  }),
-);
-
-export const r2Env = parseGroup(
-  "R2",
-  z.object({
-    R2_ACCOUNT_ID: z.string().min(1),
-    R2_ACCESS_KEY_ID: z.string().min(1),
-    R2_SECRET_ACCESS_KEY: z.string().min(1),
-    R2_BUCKET: z.string().min(1),
-    R2_PUBLIC_URL: url.transform((u) => u.replace(/\/+$/, "")),
-  }),
-);
-
-export const emailEnv = parseGroup(
-  "email",
-  z.object({
-    RESEND_API_KEY: z.string().startsWith("re_"),
-    EMAIL_FROM: z.string().min(3),
-  }),
-);
-
-export const cronEnv = parseGroup(
-  "cron",
-  z.object({
-    CRON_SECRET: z.string().min(16, "Use at least 16 random characters"),
   }),
 );

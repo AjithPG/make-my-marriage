@@ -1,0 +1,144 @@
+@reference "../../../app/globals.css";
+
+/* Mobile: header band with rounded bottom. Desktop: sticky left column, 45% wide. */
+.panel {
+  @apply relative isolate flex shrink-0 flex-col gap-8 overflow-hidden rounded-b-[1.75rem] bg-primary px-5 pt-7 pb-8 text-primary-foreground shadow-md lg:sticky lg:top-4 lg:h-[calc(100dvh-2rem)] lg:min-h-[40rem] lg:w-[45%] lg:justify-between lg:rounded-[2rem] lg:p-12 lg:shadow-2xl;
+}
+
+/* ---------- decorative rings ---------- */
+
+.rings {
+  @apply pointer-events-none absolute inset-0 -z-10;
+}
+
+.ringTopLeft {
+  @apply absolute -top-24 -left-24 size-96 rounded-full border border-white/10;
+}
+
+.ringRight {
+  @apply absolute top-1/3 -right-28 size-[26rem] rounded-full border border-white/10;
+}
+
+.ringBottom {
+  @apply absolute -bottom-20 left-12 size-80 rounded-full border border-white/5;
+}
+
+/* ---------- headline block ---------- */
+
+.top {
+  @apply flex flex-col gap-6 lg:gap-8;
+}
+
+.headline {
+  @apply max-w-md font-serif text-3xl leading-tight font-normal tracking-tight text-balance text-white lg:text-[2.5rem] lg:leading-[1.18];
+}
+
+/* white/85 on wine is about 7.5:1 contrast. */
+.subtitle {
+  @apply hidden max-w-md text-lg leading-relaxed text-white/85 lg:block;
+}
+
+.points {
+  @apply hidden flex-col gap-4 lg:flex;
+}
+
+.point {
+  @apply flex items-center gap-3.5 text-base font-medium text-white;
+}
+
+.pointMark {
+  @apply flex size-6 shrink-0 items-center justify-center rounded-full bg-white/20;
+}
+
+.pointIcon {
+  @apply size-4;
+}
+
+/* ---------- preview cards (desktop only) ---------- */
+
+.previews {
+  @apply hidden max-w-md flex-col gap-4 lg:flex;
+}
+
+.card {
+  @apply rounded-2xl border border-white/40 bg-white p-5 text-foreground shadow-xl;
+}
+
+.cardHeader {
+  @apply mb-3 flex items-center justify-between gap-3;
+}
+
+.cardEyebrow {
+  @apply text-sm font-semibold tracking-wider text-muted-foreground uppercase;
+}
+
+.cardTitle {
+  @apply font-serif text-lg font-semibold text-foreground;
+}
+
+.countPill {
+  @apply rounded-full border border-border bg-secondary px-3 py-1 text-sm font-semibold text-primary tabular-nums;
+}
+
+.progressTrack {
+  @apply mb-3 h-2 w-full overflow-hidden rounded-full bg-secondary;
+}
+
+/* 142 / 210 ≈ 68%. */
+.progressBar {
+  @apply h-full w-[68%] rounded-full bg-primary;
+}
+
+.legend {
+  @apply flex items-center justify-between border-t border-border pt-3 text-sm text-muted-foreground;
+}
+
+.legendItem {
+  @apply flex items-center gap-1.5;
+}
+
+.legendDotFilled {
+  @apply size-2 rounded-full bg-primary;
+}
+
+.legendDotEmpty {
+  @apply size-2 rounded-full bg-border;
+}
+
+.whatsappTitle {
+  @apply flex items-center gap-2.5 text-sm font-semibold text-foreground;
+}
+
+.whatsappMark {
+  @apply flex size-7 items-center justify-center rounded-full border border-emerald-200 bg-emerald-50 text-emerald-700;
+}
+
+.whatsappIcon {
+  @apply size-4;
+}
+
+.quote {
+  @apply mb-3 rounded-xl border border-border bg-secondary p-3 text-sm leading-relaxed text-foreground/80 italic;
+}
+
+.cardFooter {
+  @apply flex items-center justify-between gap-3 text-sm;
+}
+
+.siteLink {
+  @apply flex min-w-0 items-center gap-1.5 font-medium text-primary;
+}
+
+.siteLinkIcon {
+  @apply size-4 shrink-0;
+}
+
+.sent {
+  @apply shrink-0 text-muted-foreground;
+}
+
+/* ---------- trust line (desktop only; mobile shows it in the form footer) ---------- */
+
+.trust {
+  @apply hidden border-t border-white/15 pt-4 text-sm font-medium text-white/85 lg:block;
+}

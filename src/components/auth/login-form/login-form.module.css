@@ -1,0 +1,36 @@
+@reference "../../../app/globals.css";
+
+.form {
+  @apply flex flex-col gap-5;
+}
+
+/* Live region; while empty, cancel the form gap below it. */
+.status:empty {
+  @apply -mb-5;
+}
+
+/* "Account created" after sign-up. */
+.notice {
+  @apply flex items-start gap-2 rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-sm font-medium text-emerald-800;
+}
+
+.noticeIcon {
+  @apply mt-0.5 size-4 shrink-0;
+}
+
+.forgotLink {
+  @apply rounded-sm text-sm font-semibold text-primary underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring;
+}
+
+/* Overrides the shadcn Button: tall wine pill. */
+.submit {
+  @apply mt-2 h-13 w-full rounded-full text-base font-semibold shadow-md hover:bg-primary-hover;
+}
+
+.submitIcon {
+  @apply size-5 motion-safe:transition-transform;
+}
+
+.submit:hover .submitIcon {
+  @apply motion-safe:translate-x-0.5;
+}

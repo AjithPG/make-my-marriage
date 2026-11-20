@@ -40,7 +40,6 @@ interface RouteContext {
  * Wraps every route handler (System Design §3):
  * Origin check on non-GET, Zod validation of body/query/params,
  * AppError → error JSON, X-Request-Id and Cache-Control: no-store.
- * Session loading and rate limits are added with the auth feature.
  */
 export function handler<
   B extends Schema | undefined = undefined,
@@ -97,15 +96,10 @@ export function created<T>(data: T): Response {
   return Response.json({ data }, { status: 201 });
 }
 
-export function list<T>(data: T[], nextCursor: string | null): Response {
-  return Response.json({ data, nextCursor });
-}
-
-export function noContent(): Response {
-  return new Response(null, { status: 204 });
-}
-
-/** Client IP as forwarded by Vercel; used for rate-limit keys. */
+/**
+ * Client IP for rate-limit keys. On Vercel `x-real-ip` is set by the platform;
+ * locally there is usually none, so every request shares the "unknown" key.
+ */
 export function clientIp(req: Request): string {
   return (
     req.headers.get("x-real-ip") ??
@@ -116,20 +110,9 @@ export function clientIp(req: Request): string {
 
 // ---------- internals ----------
 
-function allowedOrigins(): Set<string> {
-  const env = appEnv();
-  const origins = new Set([env.APP_URL]);
-  // Preview deployments live on *.vercel.app URLs that differ from APP_URL.
-  if (env.VERCEL_ENV === "preview") {
-    if (env.VERCEL_URL) origins.add(`https://${env.VERCEL_URL}`);
-    if (env.VERCEL_BRANCH_URL) origins.add(`https://${env.VERCEL_BRANCH_URL}`);
-  }
-  return origins;
-}
-
 function assertSameOrigin(req: Request): void {
   const origin = req.headers.get("origin");
-  if (!origin || !allowedOrigins().has(origin)) {
+  if (origin !== appEnv().APP_URL) {
     throw new AppError("CSRF_ORIGIN_MISMATCH", "Request origin not allowed.");
   }
 }
@@ -177,7 +160,7 @@ function errorResponse(error: unknown, requestId: string): Response {
       : null;
 
   if (!appError) {
-    // Logger is deferred; Vercel captures console output.
+    // Logger is deferred; console output is the log for now.
     console.error(`[${requestId}] Unhandled error`, error);
     return Response.json(
       {

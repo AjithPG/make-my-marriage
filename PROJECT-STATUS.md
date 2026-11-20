@@ -1,21 +1,137 @@
-# Project Status — Landing Page
+# Project Status
 
-_Last updated: 15 Nov 2026 · Branch: `dev`_
+_Last updated: 18 Nov 2026 · Branch: `dev`_
 
-## Goal
+## Features
 
-Build the homepage (`/`) from the Stitch designs (desktop + mobile), with copy that follows the PRD.
+| #   | Feature        | Plan                                             | Status                                                         |
+| --- | -------------- | ------------------------------------------------ | -------------------------------------------------------------- |
+| 1   | Landing page   | —                                                | ✅ Done (leftovers in Auth Step 0)                             |
+| 2   | Authentication | [plan/authentication.md](plan/authentication.md) | 🔄 Step 2 built — waiting for your visual check against Stitch |
 
 ---
 
-## ✅ Done
+## 2. Authentication
+
+_Goal: sign up, log in, log out, forgot/reset password, welcome screen. Plan: [plan/authentication.md](plan/authentication.md)_
+
+### Step 0 — Finish the homepage
+
+- ⬜ `(marketing)/layout.tsx` with header, footer and a "Skip to content" link
+- ⬜ Move `not-found.tsx` to a CSS module
+- ⬜ `npm run build` passes
+
+### Step 1 — Setup (you)
+
+- ✅ `.env.local` created from `.env.example` (git-ignored)
+- ✅ `.env.local`: `APP_URL=http://localhost:3000`
+- ✅ `.env.local`: `TOKEN_PEPPER` generated (`.env.example` gets it back in Step 4)
+- ✅ `.env.local`: real `MONGODB_URI` and `MIGRATE_MONGODB_URI` (same user for now)
+- ✅ App connects to Atlas (`makemymarriage` database)
+- ✅ 2026-11-18: trimmed to landing page + DB connection + `/api/health`; models, migrate-mongo, auth helpers, R2, Resend, Vercel config and cron removed until a feature needs them
+- ⬜ Resend key (optional; dev prints reset links in the terminal)
+
+> ⚠️ **Before production:** split the database users — app user `readWrite` on `makemymarriage` only, separate migrate user (`readWrite` + `dbAdmin`). The current user has `atlasAdmin` (full project control).
+
+### Step 2 — Sign-up and login pages from Stitch (design only)
+
+- ✅ Add shadcn `input` and `label`
+- ✅ Shared auth layout (wine brand panel + form area; wine header on mobile)
+- ✅ `/signup` page
+- ✅ `/login` page
+- ✅ Client-side validation with the shared Zod schema (`src/modules/auth/auth.schemas.ts`, error keys → `Auth.errors`)
+- ✅ Accessibility: labels, linked errors, focus on first error, show-password label, autocomplete
+- ⬜ Compared with Stitch desktop and mobile screens (you, in the browser)
+
+### Sign-up flow (plan: "Sign-up flow (build order)")
+
+- ✅ S1 Packages (`@node-rs/argon2`, `migrate-mongo`); `MIGRATE_MONGODB_URI` in `.env.example`
+- ✅ S2 migrate-mongo config + scripts; `signup-indexes` migration (users, rateLimits); `npm run migrate`
+- ✅ S3 `EMAIL_TAKEN`, `RATE_LIMITED`, `AppError.headers`; `created()`, `clientIp()`, `isDuplicateKeyError()`
+- ✅ S4 `server/auth/password.ts` (Argon2id)
+- ✅ S5 `server/rate-limit.ts` (model + limiter)
+- ✅ S6 `user` model
+- ✅ S7 Strict `signupSchema` + server error keys; common-password list; `signUp()`
+- ✅ S8 `POST /api/auth/signup` route
+- ✅ S9 Sign-up form calls the API; success → `/login` with "Account created"
+- ✅ S10 Typecheck, build, `curl` checks (201, 409, 400 ×3, 403, 429), Atlas check (Argon2id hash, no plain password)
+- ⬜ Browser run: sign up → `/login` shows "Account created" with the email filled in (you)
+
+### Step 3 — Rate limiter
+
+- ⬜ Install migrate-mongo (config, scripts, `MIGRATE_MONGODB_URI`)
+- ⬜ `src/server/rate-limit.ts` (model + limiter)
+- ⬜ Migration for its 2 indexes (with `down`)
+- ⬜ Limits: login 5 failed / 15 min, sign-up 3 / hour, forgot password 3 / hour
+
+### Step 4 — Auth helpers + token pepper
+
+- ⬜ Create `src/server/auth/` (`token.ts`, `password.ts` + `@node-rs/argon2`, `cookie.ts`)
+- ⬜ `TOKEN_PEPPER` in `src/server/env.ts` and `.env.example`
+- ⬜ `hashToken()` → HMAC-SHA256 with the pepper
+- ⬜ Session timing constants (30 days sliding, 90 days max)
+- ✅ Decision recorded in `CLAUDE.md`
+
+### Step 5 — Auth rules (`src/modules/auth/`)
+
+- ⬜ Models: `user`, `session`, `password-reset`
+- ⬜ Migration for their indexes (with `down`)
+- ⬜ `auth.schemas.ts` (name, normalised email, password)
+- ⬜ Common-password check (server only)
+- ⬜ Sign-up rules (`EMAIL_TAKEN`, incl. race on unique index)
+- ⬜ Login rules (same error for unknown email, dummy check, fresh session)
+- ⬜ Session create / load / slide / delete
+- ⬜ `getSession()` for server pages
+
+### Step 6 — `handler()` gets sessions
+
+- ⬜ `auth: "user"` option + `ctx.user`
+- ⬜ 401 `UNAUTHENTICATED` without a session
+
+### Step 7 — Endpoints
+
+- ⬜ `POST /api/auth/signup`
+- ⬜ `POST /api/auth/login`
+- ⬜ `POST /api/auth/logout`
+- ⬜ `GET /api/me`
+
+### Step 8 — Forgot and reset password
+
+- ⬜ `POST /api/auth/password/forgot`
+- ⬜ `POST /api/auth/password/reset`
+- ⬜ `src/server/email.ts` + `resend` package
+- ⬜ Reset email template
+- ⬜ `/forgot-password` and `/reset-password` pages
+
+### Step 9 — Connect it up
+
+- ⬜ Sign-up and login forms call the API
+- ⬜ `/welcome` page (name, email, Log out)
+- ⬜ Homepage "Log in" → `/login`, "Create your wedding" → `/signup`
+- ⬜ `returnTo` redirect after login / sign-up
+
+### Step 10 — Check
+
+- ⬜ Typecheck and build pass
+- ⬜ Flows by hand: sign up, log out, log in, wrong password, 6th failed login blocked
+- ⬜ POST from another origin rejected
+- ⬜ Forgot → reset; old session stops working
+- ⬜ Keyboard-only run; mobile width
+
+---
+
+## 1. Landing page ✅
+
+_Goal: the homepage (`/`) from the Stitch designs (desktop + mobile), with copy that follows the PRD._
 
 ### Design analysis
+
 - ✅ Downloaded the Stitch "Landing Page" (desktop) and "Mobile Landing Page" screens
 - ✅ Listed the 10 sections: header, hero, trust strip, how it works, features, guest experience, family roles, FAQ, final CTA, footer
 - ✅ Found the copy that goes beyond the first version (RSVP, sadya count, guest QR uploads, custom domain, concierge)
 
 ### Decisions
+
 - ✅ The homepage lives in `src/app/(marketing)/page.tsx` (it already serves `/`)
 - ✅ No Tailwind classes in JSX: each component gets its own `.module.css` using `@apply`
 - ✅ shadcn components (`src/components/ui/`) keep their own styling
@@ -24,6 +140,7 @@ Build the homepage (`/`) from the Stitch designs (desktop + mobile), with copy t
 - ✅ Accessible text sizes: body 16px, smallest 14px
 
 ### Setup
+
 - ✅ Added the styling and accessibility rules to `CLAUDE.md`
 - ✅ Added the shadcn Accordion (for the FAQ)
 - ✅ Brand colours set in `globals.css` (wine `#7A1F33`, tint, ink, slate, mist, line)
@@ -31,84 +148,24 @@ Build the homepage (`/`) from the Stitch designs (desktop + mobile), with copy t
 - ✅ All page text written in `messages/en.json` and matched to the PRD
 - ✅ Fixed `next.config.ts` so `.module.css` files stay scoped (they were treated as global CSS)
 
-### Header (`src/components/home/`)
-- ✅ Brand logo
-- ✅ Header with desktop nav, Log in, Create button
-- ✅ Mobile menu (open/close, Escape key, focus return)
-- ✅ Shown on the homepage
+### Sections (`src/components/home/`)
 
-### Footer (`src/components/home/`)
-- ✅ Small brand logo, copyright line
-- ✅ Privacy, Terms, Contact, Report a page links (point to `#` for now)
-- ✅ Stacks on mobile, one row on desktop
-- ✅ Shown on the homepage
+- ✅ Header: brand logo, desktop nav, Log in, Create button, mobile menu
+- ✅ Footer: small logo, copyright, Privacy / Terms / Contact / Report a page
+- ✅ Section heading: label + h2 + intro, centred or left-aligned
+- ✅ Hero: headline, 2 buttons, 3 checkmarks, phone preview, invited + WhatsApp cards
+- ✅ Trust strip: 4 badges
+- ✅ How it works: 3 numbered cards
+- ✅ Features grid: 6 cards (website, WhatsApp, guest list, to-dos, gallery, YouTube)
+- ✅ Guest experience: guest-view mockup + 3 points
+- ✅ Bring the family in: Admin / Manager cards
+- ✅ FAQ: 5 questions in the shadcn Accordion
+- ✅ Final call to action: wine panel + button
+- ✅ `(marketing)/page.tsx` shows all sections plus header and footer
 
-### Section heading (`src/components/home/section-heading/`)
-- ✅ Small label + title (h2) + optional intro
-- ✅ Centred or left-aligned
-- ✅ Used by How it works
+### Leftovers (moved to Authentication Step 0 and Step 10)
 
-### Hero (`src/components/home/hero/`, `hero-preview/`)
-- ✅ Label, headline with *beautiful* in wine italic, subtitle
-- ✅ Create your wedding + See a sample site buttons (full width on mobile)
-- ✅ 3 checkmarks: no app, one sitting, hidden from search engines
-- ✅ Phone preview with Engagement, Muhurtham, Reception
-- ✅ "Guests invited" card (tablet and up) and WhatsApp invite card
-- ✅ Shown on the homepage
-
-### Trust strip (`src/components/home/trust-strip/`)
-- ✅ 4 badges: free, no app, hidden from search engines, made for Kerala
-- ✅ 2×2 on mobile, one row of pills from tablet up
-- ✅ Shown on the homepage
-
-### How it works (`src/components/home/how-it-works/`)
-- ✅ Section heading: "Live in three steps"
-- ✅ 3 numbered cards: Add your events → Invite on WhatsApp → Share and celebrate
-- ✅ Header "How it works" link jumps here (clears the sticky header)
-- ✅ Shown on the homepage
-
-### Features grid (`src/components/home/features/`, `feature-card/`)
-- ✅ Section heading: "Everything your wedding needs, in one place"
-- ✅ 6 cards: website (wide), WhatsApp invites, guest list, to-dos, photo gallery, YouTube live
-- ✅ Out-of-scope content replaced (invited count + Bride's/Groom's side instead of RSVP and sadya count)
-- ✅ Header "Features" link jumps here
-- ✅ Shown on the homepage
-
-### Guest experience (`src/components/home/guest-experience/`)
-- ✅ "No app. No login. Just a link." heading and intro
-- ✅ 3 points: every event in one view, directions in one tap, watch from anywhere
-- ✅ Guest-view mockup (generic welcome, no per-guest page)
-- ✅ Shown on the homepage
-
-### Bring the family in (`src/components/home/family-roles/`)
-- ✅ Heading + intro explaining Admin vs Manager (from the PRD)
-- ✅ 3 cards: Meera (Admin), Arjun (Admin), Kavya (Manager)
-- ✅ Shown on the homepage
-
-### FAQ (`src/components/home/faq/`)
-- ✅ 5 questions in the shadcn Accordion, first one open
-- ✅ Answers follow the PRD (no RSVP, no concierge, honest privacy answer)
-- ✅ Header "FAQ" link jumps here
-- ✅ Shown on the homepage
-
-### Final call to action (`src/components/home/final-cta/`)
-- ✅ Wine panel with decorative rings
-- ✅ "Start your wedding page today" + white "Create your wedding — it's free" button
-- ✅ Shown on the homepage
-
-### Homepage
-- ✅ `(marketing)/page.tsx` shows all 8 sections plus header and footer
-
----
-
-## 🔄 Doing next
-
-### Wire up
-- ⬜ `(marketing)/layout.tsx` with skip link, header and footer
-- ⬜ Move `not-found.tsx` to a CSS module
-
-### Check
-- ⬜ `npm run typecheck` and `npm run build` pass
+- ➡️ Marketing layout with skip link, `not-found` CSS module, build check
 - ⬜ Compare with the Stitch desktop and mobile screens
 - ⬜ Accessibility check: keyboard, focus, contrast, zoom to 200%
 
@@ -116,7 +173,8 @@ Build the homepage (`/`) from the Stitch designs (desktop + mobile), with copy t
 
 ## 📝 Notes
 
-- Every component has its own folder: `src/components/home/<name>/<name>.tsx` + `<name>.module.css`.
+- Every component has its own folder: `src/components/<area>/<name>/<name>.tsx` + `<name>.module.css`.
 - To reuse a class inside the same CSS module, use `composes: className;` (`@apply` only works with Tailwind utilities).
 - CSS modules start with `@reference "../../../app/globals.css";`. Using `@import` there breaks the build.
 - If a CSS change doesn't show up, restart `npm run dev` (Turbopack sometimes keeps old CSS modules).
+- Workflow: discuss → `plan/<feature>.md` → approval → code, ticking steps here as they finish.

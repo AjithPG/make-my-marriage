@@ -1,0 +1,5 @@
+@reference "../../../app/globals.css";
+
+.shell {
+  @apply mx-auto flex min-h-dvh w-full max-w-360 flex-1 flex-col bg-background lg:flex-row lg:gap-4 lg:p-4;
+}

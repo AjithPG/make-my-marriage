@@ -1,0 +1,27 @@
+@reference "../../../app/globals.css";
+
+.form {
+  @apply flex flex-col gap-5;
+}
+
+/* Overrides the shadcn Button: tall wine pill. */
+.submit {
+  @apply mt-2 h-13 w-full rounded-full text-base font-semibold shadow-md hover:bg-primary-hover;
+}
+
+.submitIcon {
+  @apply size-5 motion-safe:transition-transform;
+}
+
+.submit:hover .submitIcon {
+  @apply motion-safe:translate-x-0.5;
+}
+
+/* Form-level error (rate limit, network). Focused when it appears. */
+.formError {
+  @apply flex items-start gap-2 rounded-xl border border-destructive/30 bg-destructive/5 p-3 text-sm font-medium text-destructive focus-visible:outline-2 focus-visible:outline-ring;
+}
+
+.formErrorIcon {
+  @apply mt-0.5 size-4 shrink-0;
+}
